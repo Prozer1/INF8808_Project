@@ -25,7 +25,7 @@ sidebar = dbc.Nav(
 
 app.layout = dbc.Container([
     dbc.Row([
-        dbc.Col(html.Div("Cristiano Ronaldo Dataviz App Cloud", style={'fontSize':50, 'textAlign':'center', 'color': '#ffffff'}))
+        dbc.Col(html.Div("Cristiano Ronaldo Dataviz App", style={'fontSize':50, 'textAlign':'center', 'color': '#ffffff'}))
     ]),
     
     html.Hr(),
