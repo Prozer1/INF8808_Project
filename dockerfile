@@ -11,4 +11,6 @@ COPY . ./
 ENV PORT=9900
 ENV HOST=51.158.60.122
 
+EXPOSE 9900
+
 CMD [ "python", "./app.py"]
