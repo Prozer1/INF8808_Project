@@ -1,6 +1,7 @@
 import dash
 from dash import html,dcc
 import dash_bootstrap_components as dbc
+import os
 
 app = dash.Dash(__name__, use_pages=True,external_stylesheets=[dbc.themes.LUX],
                 meta_tags=[{'name': 'viewport',
@@ -38,4 +39,4 @@ app.layout = dbc.Container([
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=False, port=os.getenv('PORT','8050'), host=os.getenv('HOST', '0.0.0.0'))
