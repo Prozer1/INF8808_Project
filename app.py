@@ -37,6 +37,5 @@ app.layout = dbc.Container([
     ])
 ], fluid=True, class_name="bg-dark vh-100")
 
-
 if __name__ == "__main__":
     app.run(debug=False, port=os.getenv('PORT','8050'), host='0.0.0.0')
