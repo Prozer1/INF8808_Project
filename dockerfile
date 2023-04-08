@@ -4,6 +4,6 @@ WORKDIR /tmp/git/INF8808_Project
 
 COPY . ./
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 CMD [ "python", "./app.py"]
