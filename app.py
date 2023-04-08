@@ -39,4 +39,4 @@ app.layout = dbc.Container([
 
 
 if __name__ == "__main__":
-    app.run(debug=False, port=os.getenv('PORT','8050'), host=os.getenv('HOST', '0.0.0.0'))
+    app.run(debug=False, port=os.getenv('PORT','8050'), host='0.0.0.0')
