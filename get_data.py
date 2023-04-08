@@ -21,12 +21,15 @@ def question_7_data():
     result = filtered_data.replace({'CltChamp': mapping})
     pivoted = pd.pivot_table(result, index='Saison', columns='Équipe', values='CltChamp')
     return pivoted
-
+    
 def question_8_data():
-    raw_data = get_data_from_file("./datasets/cr7_goals.xlsx")
+    raw_data = get_data_from_file("./datasets/all_goals.xlsx")
     filtered_data = raw_data.filter(['Date', 'Minute'], axis=1)
     goal_by_minute = filtered_data.groupby(['Minute']).count()
-    return goal_by_minute.loc[2:90]
+    goal_by_minute = goal_by_minute[~goal_by_minute.index.str.contains('\+')]
+    goal_by_minute.index = pd.to_numeric(goal_by_minute.index)
+    goal_by_minute = goal_by_minute.sort_index()
+    return goal_by_minute.loc[:90]
     
 def question_9_data():
     """This is the function to get the data and filters it to answer the question 9.
