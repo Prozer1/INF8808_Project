@@ -3,7 +3,7 @@ from dash import dcc,html
 import plotly.express as px
 import dash_bootstrap_components as dbc
 
-dash.register_page(__name__, name='Summary', path='/',order=1)
+dash.register_page(__name__, name='Championships',order=3)
 
 df = px.data.gapminder()
 
@@ -13,7 +13,7 @@ layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.Div("Summary", style={'fontSize': 24, 'color': '#ffffff'})
+                        html.Div("Championships", style={'fontSize': 24, 'color': '#ffffff'})
                     ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
                 )
             ]

@@ -10,7 +10,7 @@ sidebar = dbc.Nav(
     [
         dbc.NavLink(
             [
-                html.Div(page["name"], className="ms-2"),
+                html.Div(page["name"], className="ms-2 text-white"),
             ],
             href=page["path"],
             active="exact",
@@ -19,12 +19,12 @@ sidebar = dbc.Nav(
     ],
     vertical=True,
     pills=True,
-    class_name="bg-Light",
+    class_name="bg-dark",
 )
 
 app.layout = dbc.Container([
     dbc.Row([
-        dbc.Col(html.Div("Cristiano Ronaldo Dataviz App", style={'fontSize':50, 'textAlign':'center', 'color': '#1a1a1a'}))
+        dbc.Col(html.Div("Cristiano Ronaldo Dataviz App", style={'fontSize':50, 'textAlign':'center', 'color': '#ffffff'}))
     ]),
     
     html.Hr(),
@@ -34,8 +34,8 @@ app.layout = dbc.Container([
         
         dbc.Col([dash.page_container], xs=8, sm=8, md=10, lg=10, xl=10, xxl=10)
     ])
-], fluid=True)
+], fluid=True, class_name="bg-dark vh-100")
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
