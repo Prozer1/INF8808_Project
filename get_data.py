@@ -54,97 +54,6 @@ def question_1_data():
     filtered_data = goal_data.filter(['Date','Comp','Équipe', 'Partie du corps', 'Distance', 'Minute'], axis=1)
     return filtered_data
 
-
-
-
-
-def categorize_team(team_list):
-    if 'Portugal' in team_list:
-        return 'Others With National Team'
-    else:
-        return 'Others'
-
-def question_4_5_data():
-    """ Get goals grouped by compitition  """
-    df = get_data_from_file("./datasets/goals-ronaldo.xlsx")
-
-    df1 = df[['Clt', 'Comp', 'Équipe']]
-    #Count number of goals per competition
-    df2 = df1.groupby(['Comp'])['Clt'].count()
-    df3 = df2.reset_index(name='Goals')
-    #df3
-
-    #group teams per competition
-    df4 = df1.groupby(['Comp'])['Équipe'].unique().reset_index().rename(columns={'Comp': 'Comp_teams', 'Équipe': 'Teams'})
-    df4['Teams'] = df4['Teams'].apply(lambda x: x.tolist())
-
-    #mergethe two tables 
-    df5 = pd.merge(df3, df4, left_on='Comp', right_on='Comp_teams').drop('Comp_teams', axis =1)
-
-    # Sort 
-    df_sorted = df5.sort_values("Goals", ascending= False)
-    #top 7 
-    # Select the top 7 competitions with the highest goals
-    top_comps = df_sorted.head(7)['Comp'].tolist()
-    team = df_sorted['Teams'].tolist()
-
-    # Create a new column to label competitions as "Top" or "Others"
-    df_sorted['Comp_Category'] = df_sorted['Comp'].apply(lambda x: x if x in top_comps else 'Others')
-
-    # Create a new column to label teams as "OthersWithNT" or "others"
-    df_sorted['Team_Category'] = df_sorted['Teams'].apply(lambda x: 'OthersWithNT' if 'Portugal' in x else 'Others')
-
-    return df_sorted
-
-def question_4_data(): 
-
-    df_sorted = question_4_5_data()
-
-    # Replace 'Team_Category' value with 'Comp_Category' value if 'Comp_Category' is 'Others'
-    df_sorted['Comp_Category'] = df_sorted.apply(lambda row: row['Team_Category'] if row['Comp_Category'] == 'Others' else row['Comp_Category'], axis=1)
-
-    # Select the columns of interest and print the resulting DataFrame
-    df_sorted = df_sorted[['Comp', 'Goals','Teams', 'Comp_Category']]
-
-    #group competion per competion_category
-    df_final1 = df_sorted.groupby(['Comp_Category'])['Comp'].unique().reset_index().rename(columns={'Comp_Category': 'Comp_Category1'})
-    df_final1['Comp'] = df_final1['Comp'].apply(lambda x: x.tolist())
-
-    #Count number of goals per competition_category
-    df_final2 = df_sorted.groupby(['Comp_Category'])['Goals'].sum()
-    df_final2 = df_final2.reset_index(name='Goals')
-
-    #mergethe two tables 
-    df_final = pd.merge(df_final1, df_final2, left_on='Comp_Category1', right_on='Comp_Category').drop('Comp_Category1', axis =1)
-
-    # Sort 
-    df_final = df_final.sort_values("Goals", ascending= False)
-
-        #group teams per competion_category , teams is containing a list
-    df_final3 = df_sorted.groupby('Comp_Category').agg({'Teams': sum}).reset_index().rename(columns={'Comp_Category': 'Comp_Category1'})
-
-    #remove duplicates
-    df_final3['Teams3'] = df_final3['Teams'].apply(lambda x: list(set(x)))
-
-    #mergethe two tables 
-    df_final = pd.merge(df_final3, df_final, left_on='Comp_Category1', right_on='Comp_Category').drop('Comp_Category1', axis =1).drop('Teams',axis =1)
-
-    # Sort 
-    df_final = df_final.sort_values("Comp_Category")
-    df_final = df_final.rename(columns={'Teams3': 'Teams'})
-
-    return df_final
-
-def question_5_data(): 
-    # Replace Team_Category with "National Team" if  "OthersWithNT" or "Clubs" if "others"
-    df_team_sorted = question_4_5_data()
-    df_team_sorted['Team_Category'] = df_team_sorted['Team_Category'].apply(lambda x: 'National Team' if 'OthersWithNT' in x else 'Clubs')
-
-    df_team_sorted1 = df_team_sorted.groupby(['Team_Category'])['Goals'].sum()
-    df_team_sorted1 = df_team_sorted1.reset_index(name='Goals')
-
-    return df_team_sorted1
-
 def question_7_ranking_data():
     # Load raw data
     raw_data = get_data_from_file("./datasets/cr7_club_ranking.xlsx")
@@ -211,6 +120,7 @@ def question_8_data():
     
 def question_9_data():
     """This is the function to get the data and filters it to answer the question 9.
+
     Returns:
         dataframe: Pandas DF with Date, Type and Count as columns
     """
@@ -235,26 +145,3 @@ def question_9_data():
     filtered_data = filtered_data[~filtered_data['Type'].isin(['Solo run', 'Penalty rebound', 'Counter attack goal', 'Deflected shot on goal'])]
     filtered_data = filtered_data.sort_values(by=['Date'])
     return filtered_data
-
-def question_10_data():
-    df_assist = get_data_from_file("./datasets/goals-ronaldo.xlsx")
-
-    #Select only columns CLT, Comp = Competition, Equipe 
-    df_assist = df_assist[['Clt', 'Passe décisive']]
-
-    # Drop all rows with empty data in the 'Passe décisive' column
-    df_assist = df_assist.dropna(subset=['Passe décisive'])
-
-    #Count number of goals per player
-    df_assist = df_assist.groupby(['Passe décisive'])['Clt'].count()
-    df_assist = df_assist.reset_index(name='nbPasse')
-
-    #Sort
-    df_assist = df_assist.sort_values("nbPasse", ascending= False)
-
-    # Keep only the top ten players with the highest number of assists
-    df_assist = df_assist.head(10)
-
-    #Sort
-    df_assist = df_assist.sort_values("Passe décisive")
-    return df_assist
