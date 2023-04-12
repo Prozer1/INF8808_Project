@@ -3,7 +3,7 @@ from dash import dcc,html
 import plotly.express as px
 import dash_bootstrap_components as dbc
 
-# dash.register_page(__name__, name='Opponent Clubs',order=4)
+dash.register_page(__name__, name='Opponent Clubs',order=4)
 
 df = px.data.gapminder()
 

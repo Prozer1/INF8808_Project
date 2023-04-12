@@ -7,7 +7,7 @@ from get_data import question_8_data, question_9_data
 dash.register_page(__name__, name='Goals',order=6)
 
 df_8 = question_8_data()
-df_9 = question_9_data()
+# df_9 = question_9_data()
 
 layout = html.Div(
     [
@@ -33,17 +33,17 @@ layout = html.Div(
                 )
             ]
         ),
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        dcc.Graph(id='line-fig',
-                            figure=px.line(df_9, x="Date", y="Count", color='Type', title='Type of goals per year',
-                                            template="plotly_dark"
-                                            ))
-                    ],width=12
-                )
-            ]
-        )
+        # dbc.Row(
+        #     [
+        #         dbc.Col(
+        #             [
+        #                 dcc.Graph(id='line-fig',
+        #                     figure=px.line(df_9, x="Date", y="Count", color='Type', title='Type of goals per year',
+        #                                     template="plotly_dark"
+        #                                     ))
+        #             ],width=12
+        #         )
+        #     ]
+        # )
     ]
 )

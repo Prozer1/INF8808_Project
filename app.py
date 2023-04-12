@@ -1,5 +1,5 @@
 import dash
-from dash import html,dcc
+from dash import html,dcc, Input, Output
 import dash_bootstrap_components as dbc
 import os
 import plotly.express as px
@@ -8,6 +8,7 @@ import plotly.express as px
 app = dash.Dash(__name__, use_pages=True,external_stylesheets=[dbc.themes.LUX],
                 meta_tags=[{'name': 'viewport',
                             'content': 'width=device-width, initial-scale=1.0'}])
+
 
 sidebar = dbc.Nav(
     [
@@ -39,7 +40,9 @@ app.layout = dbc.Container([
     ])
 ], fluid=True, class_name="bg-dark vh-100")
 
-
+# from pages.club_national_team import switch_callback
+# switch_callback(app)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=os.getenv('PORT','8050'), host='0.0.0.0')
+    app.run(debug=True, port=os.getenv('PORT','8050'), host='0.0.0.0', dev_tools_silence_routes_logging = False)
+
