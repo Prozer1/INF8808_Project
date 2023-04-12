@@ -1,33 +1,44 @@
 import dash
-from dash import dcc,html
+from dash import dcc, html, callback
 import plotly.express as px
 import dash_bootstrap_components as dbc
+from get_data import visualisation_1_data
 
-dash.register_page(__name__, name='Age',order=2)
+dash.register_page(__name__, name='Age', order=2)
 
-df = px.data.gapminder()
+data = visualisation_1_data()
 
-layout = html.Div(
+layout = dbc.Row(
     [
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        html.Div("Age", style={'fontSize': 24, 'color': '#ffffff'})
-                    ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
-                )
-            ]
+        dbc.Col(
+            dcc.Graph(
+                id='goals-graph',
+                figure=px.bar(data, x='Age', y='Goals per game', title='Cristiano Ronaldo Goals per Game Ratio by Age')
+            ),
+            className="col-12"
         ),
-        dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        dcc.Graph(id='line-fig',
-                            figure=px.histogram(df, x='continent', y='lifeExp', histfunc='avg', template="plotly_dark"))
-                    ],width=12
-                )
-            ]
+        dbc.Col(
+            dcc.RadioItems(
+                id='mode-radio',
+                options=[
+                    {'label': 'Goals per game', 'value': 'Goals per game'},
+                    {'label': 'Total goals', 'value': 'Total goals'},
+                ],
+                value='Goals per game',
+                labelStyle={'display': 'inline-block', 'margin-right': '10px'},
+                inputStyle={'margin-right': '5px'}
+            ),
+            className="col-12"
         )
-        
     ]
 )
+
+@callback(
+    dash.dependencies.Output('goals-graph', 'figure'),
+    [dash.dependencies.Input('mode-radio', 'value')]
+)
+def update_goals_graph(mode):
+    if mode == 'Goals per game':
+        return px.bar(data, x='Age', y='Goals per game', title='Cristiano Ronaldo Goals per Game Ratio by Age', template='plotly_dark')
+    else:
+        return px.bar(data, x='Age', y='Total goals', title='Cristiano Ronaldo Total Goals by Age', template='plotly_dark')

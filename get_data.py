@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+import utils
 
 def get_data_from_file(file_name):
     # file_name = "./datasets/cr7_goals.xlsx"
@@ -8,6 +9,27 @@ def get_data_from_file(file_name):
 
     sheetX = xls.parse(0)
     return sheetX
+
+
+def visualisation_1_data():
+    df = pd.read_csv('./datasets/cristiano/stats.csv')
+    for title in df.columns:
+        if title.startswith("Unnamed"):
+            df.rename(columns={title: df[title][0]}, inplace=True)
+        else:
+            head_title = utils.extract_title(title)
+            df.rename(columns={title: head_title  + '.' + str(df[title][0])}, inplace=True)
+    df = df.drop([0])
+    df.rename(columns={'Âge': 'Age'}, inplace=True)
+    df.rename(columns={'Performance.Buts': 'Buts'}, inplace=True)
+    goal_stats = df[['Age', 'MJ', 'Buts']]
+    goal_stats['Age'] = goal_stats['Age'].astype(int)
+    goal_stats['MJ'] = goal_stats['MJ'].astype(int)
+    goal_stats['Buts'] = goal_stats['Buts'].astype(int)
+    group_by_age = goal_stats.groupby(['Age']).sum().reset_index()
+    group_by_age['Goals per game'] = group_by_age['Buts'] / group_by_age['MJ']
+    group_by_age.rename(columns={'Buts': 'Total goals'}, inplace=True)
+    return group_by_age
 
 def question_1_data():
     goal_data = get_data_from_file("./datasets/cr7_goals.xlsx")

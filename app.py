@@ -2,6 +2,8 @@ import dash
 from dash import html,dcc
 import dash_bootstrap_components as dbc
 import os
+import plotly.express as px
+
 
 app = dash.Dash(__name__, use_pages=True,external_stylesheets=[dbc.themes.LUX],
                 meta_tags=[{'name': 'viewport',
@@ -37,5 +39,7 @@ app.layout = dbc.Container([
     ])
 ], fluid=True, class_name="bg-dark vh-100")
 
+
+
 if __name__ == "__main__":
-    app.run(debug=False, port=os.getenv('PORT','8050'), host='0.0.0.0')
+    app.run(debug=True, port=os.getenv('PORT','8050'), host='0.0.0.0')
