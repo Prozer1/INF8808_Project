@@ -28,7 +28,7 @@ layout = dbc.Row(
                 labelStyle={'display': 'inline-block', 'margin-right': '10px'},
                 inputStyle={'margin-right': '5px'}
             ),
-            className="col-12"
+            className="d-flex col-12 justify-content-center",
         )
     ]
 )
