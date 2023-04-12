@@ -10,6 +10,15 @@ data = visualisation_1_data()
 
 layout = dbc.Row(
     [
+        dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        html.Div("Age", style={'fontSize': 24, 'color': '#ffffff'})
+                    ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
+                )
+            ]
+        ),
         dbc.Col(
             dcc.Graph(
                 id='goals-graph',
@@ -28,7 +37,7 @@ layout = dbc.Row(
                 labelStyle={'display': 'inline-block', 'margin-right': '10px'},
                 inputStyle={'margin-right': '5px'}
             ),
-            className="d-flex col-12 justify-content-center",
+            className="d-flex col-12 justify-content-center m-3 fs-4 text-white",
         )
     ]
 )

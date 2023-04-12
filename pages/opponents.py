@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 from get_data import visualisation_2_data
 
-dash.register_page(__name__, name='Opponent Clubs',order=4)
+dash.register_page(__name__, name='Opponents',order=4)
 
 team_stats = visualisation_2_data()
 
@@ -32,8 +32,24 @@ fig.update_layout(
 )
 
 # Define the layout of the app
-layout = html.Div(children=[
-    dcc.Graph(
-        figure=fig
-    )
+layout = html.Div([
+        dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        html.Div("Opponents", style={'fontSize': 24, 'color': '#ffffff'})
+                    ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
+                )
+            ]
+        ),
+        dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        dcc.Graph(id='line-fig',
+                            figure=fig)
+                    ],width=12
+                )
+            ]
+        )
 ])

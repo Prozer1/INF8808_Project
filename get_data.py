@@ -126,22 +126,22 @@ def question_9_data():
     """
     all_goals = get_data_from_file("./datasets/all_goals.xlsx")
     filtered_data = all_goals.filter(['Date','Type'], axis=1)
-    # for count, date in enumerate(filtered_data.Date):
-    #     date = date.split('/')
-    #     if len(date) == 1:
-    #         date = date[0].split('-')
-    #     filtered_data.Date[count] = '20'+date[2]
-    # filtered_data['Count'] = filtered_data.groupby(['Date', 'Type'])['Type'].transform('count')
-    # filtered_data = filtered_data.dropna(subset=['Type'])
-    # filtered_data = filtered_data.drop_duplicates()
-    # # Add rows with 0 count for the years where the type of goal is not present
-    # for year in range(2002, 2023):
-    #     for type in filtered_data.Type.unique():
-    #         if not filtered_data[(filtered_data['Date'] == str(year)) & (filtered_data['Type'] == type)].empty:
-    #             continue
-    #         filtered_data = filtered_data.append({'Date': str(year), 'Type': type, 'Count': 0}, ignore_index=True)
-    
-    # # Drop the rows where the Type is Solo Run or Penalty rebound or counter attack or deflected shot on goal
-    # filtered_data = filtered_data[~filtered_data['Type'].isin(['Solo run', 'Penalty rebound', 'Counter attack goal', 'Deflected shot on goal'])]
-    # filtered_data = filtered_data.sort_values(by=['Date'])
+    for count, date in enumerate(filtered_data.Date):
+        date = date.split('/')
+        if len(date) == 1:
+            date = date[0].split('-')
+        filtered_data.Date[count] = '20'+date[2]
+    filtered_data['Count'] = filtered_data.groupby(['Date', 'Type'])['Type'].transform('count')
+    filtered_data = filtered_data.dropna(subset=['Type'])
+    filtered_data = filtered_data.drop_duplicates()
+    # Add rows with 0 count for the years where the type of goal is not present
+    for year in range(2002, 2023):
+        for type in filtered_data.Type.unique():
+            if not filtered_data[(filtered_data['Date'] == str(year)) & (filtered_data['Type'] == type)].empty:
+                continue
+            filtered_data = filtered_data.append({'Date': str(year), 'Type': type, 'Count': 0}, ignore_index=True)
+
+    # Drop the rows where the Type is Solo Run or Penalty rebound or counter attack or deflected shot on goal
+    filtered_data = filtered_data[~filtered_data['Type'].isin(['Solo run', 'Penalty rebound', 'Counter attack goal', 'Deflected shot on goal'])]
+    filtered_data = filtered_data.sort_values(by=['Date'])
     return filtered_data
