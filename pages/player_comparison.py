@@ -18,7 +18,9 @@ for player in players:
             r=year_data['data'],
             theta=['Goals per 90 min', 'Assists per 90 min', 'Shot creation per 90 min','Pass completion per 90 min', 'Shots on target', 'Goals per 90 min',],
             name=name,
-            visible=(i==0) # Show only the first year by default
+            meta=[name],
+            visible=(i==0), # Show only the first year by default
+            hovertemplate='<b>%{meta}</b><br>%{theta}: %{r:.2f} <extra></extra>'
         )
         traces.append(trace)
 
@@ -36,7 +38,7 @@ fig.update_layout(
     ),
     showlegend=True,
     height=700,
-    title='Performance comparison of players in the European scene with Cristiano Ronaldo', 
+    title='Performance comparison of players through their 5 last years in the European scene with Cristiano Ronaldo ', 
     template='plotly_dark'
 )
 
@@ -49,17 +51,19 @@ for year in years:
     step = dict(
         method="update",
         args=[{"visible": visible}],
-        label=str(year)
+        label='Year ' + str(year)
     )
     steps.append(step)
 
 sliders = [dict(
     active=0,
     pad={"t": 50},
-    steps=steps
+    steps=steps,
+    name="Year"
 )]
 
 fig.update_layout(sliders=sliders)
+
 
 # Show the figure
 # Define the layout of the app
@@ -68,7 +72,7 @@ layout = html.Div([
             [
                 dbc.Col(
                     [
-                        html.Div("Player comparison with Crisitiano Ronaldo", style={'fontSize': 24, 'color': '#ffffff'})
+                        html.Div("Performance comparison", style={'fontSize': 24, 'color': '#ffffff'})
                     ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
                 )
             ]
