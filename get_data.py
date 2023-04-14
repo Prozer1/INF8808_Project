@@ -76,7 +76,7 @@ def visualization_4():
 
     teams_by_category = df_sorted.groupby('Comp_Category').agg({'Teams': sum}).reset_index().rename(columns={'Comp_Category': 'Comp_Category1'})
     teams_by_category['Teams'] = teams_by_category['Teams'].apply(lambda x: list(set(x)))
-    merged_data = pd.merge(teams_by_category, merged_data, left_on='Comp_Category1', right_on='Comp_Category').drop('Comp_Category1', axis=1).drop('Teams', axis=1)
+    merged_data = pd.merge(teams_by_category, merged_data, left_on='Comp_Category1', right_on='Comp_Category').drop('Comp_Category1', axis=1)
 
     df_final = merged_data.sort_values("Comp_Category").rename(columns={'Teams': 'Teams'})
     return df_final
