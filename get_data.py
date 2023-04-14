@@ -109,84 +109,81 @@ def get_visualization_data():
     teams_by_comp['Teams'] = teams_by_comp['Teams'].apply(lambda x: x.tolist())
     merged_data = pd.merge(goals_by_comp, teams_by_comp, left_on='Comp', right_on='Comp_teams').drop('Comp_teams', axis=1)
     df_sorted = merged_data.sort_values("Goals", ascending=False)
-def visualisation_2_data():
-    goal_ass_stats_cristiano = goal_ass_stats('cristiano')
-    goal_ass_stats_cristiano = goal_ass_stats_cristiano.drop([23]) # remove season with Alnassr
-    goal_ass_stats_rashford = goal_ass_stats('rashford')
-    goal_ass_stats_messi = goal_ass_stats('messi')
-    goal_ass_stats_suarez = goal_ass_stats('suarez')
-    goal_ass_stats_costa = goal_ass_stats('costa')
-    df_cristiano_shot = shot_stats('cristiano')
-    df_cristiano_shot = df_cristiano_shot.drop([19])
-    df_cristiano_shot = df_cristiano_shot.drop([22])
-
-    df_rashford_shot = shot_stats('rashford')
-    df_messi_shot = shot_stats('messi')
-    df_suarez_shot = shot_stats('suarez')
-    df_costa_shot = shot_stats('costa')
-    df_cristiano_pass = pass_stats('cristiano')
-    df_cristiano_pass = df_cristiano_pass.drop([19])
-    df_cristiano_pass = df_cristiano_pass.drop([23]) # remove season with Alnassr
-
-    df_rashford_pass = pass_stats('rashford')
-    df_messi_pass = pass_stats('messi')
-    df_suarez_pass = pass_stats('suarez')
-    df_costa_pass = pass_stats('suarez')
-    df_cristiano_shot_percentage = shot_percentage_stats('cristiano')
-    df_cristiano_shot_percentage = df_cristiano_shot_percentage.drop([20]) # 0 match season
-    df_cristiano_shot_percentage = df_cristiano_shot_percentage.drop([22]) # remove season with Alnassr
-
-    df_rashford_shot_percentage = shot_percentage_stats('rashford')
-    df_messi_shot_percentage = shot_percentage_stats('messi')
-    df_suarez_shot_percentage = shot_percentage_stats('suarez')
-    df_costa_shot_percentage = shot_percentage_stats('suarez')
-    cristiano_last_5 = group_last_5_years_data(df_cristiano_shot, df_cristiano_pass, df_cristiano_shot_percentage, goal_ass_stats_cristiano)
-    rashford_last_5 = group_last_5_years_data(df_rashford_shot, df_rashford_pass, df_rashford_shot_percentage, goal_ass_stats_rashford)
-    messi_last_5 = group_last_5_years_data(df_messi_shot, df_messi_pass, df_messi_shot_percentage, goal_ass_stats_messi)
-    suarez_last_5 = group_last_5_years_data(df_suarez_shot, df_suarez_pass, df_suarez_shot_percentage, goal_ass_stats_suarez)
-    costa_last_5 = group_last_5_years_data(df_costa_shot, df_costa_pass, df_costa_shot_percentage, goal_ass_stats_costa)
-
-
-    cristiano_last_5.drop('Saison', axis=1, inplace=True)
-    rashford_last_5.drop('Saison', axis=1, inplace=True)
-    messi_last_5.drop('Saison', axis=1, inplace=True)
-    suarez_last_5.drop('Saison', axis=1, inplace=True)
-    costa_last_5.drop('Saison', axis=1, inplace=True)
-
-
-    cristiano_last_5 = cristiano_last_5.astype(float)
-    rashford_last_5 = rashford_last_5.astype(float)
-    messi_last_5 = messi_last_5.astype(float)
-    suarez_last_5 = suarez_last_5.astype(float)
-    costa_last_5 = costa_last_5.astype(float)
-
-
-
-    max_values_crisitano = cristiano_last_5.apply(max, axis=0)
-    max_values_rashford = rashford_last_5.apply(max, axis=0)
-    max_values_messi = messi_last_5.apply(max, axis=0)
-    max_values_suarez = suarez_last_5.apply(max, axis=0)
-    max_values_costa = costa_last_5.apply(max, axis=0)
-
-    concatenated_max_values = pd.concat([max_values_crisitano, max_values_rashford, max_values_messi, max_values_suarez, max_values_costa], axis=1)
-
-    max_goal_ratio, max_assist_ratio, max_sca, max_pass, max_sot = concatenated_max_values.iloc[0:].max(axis=1)
-    cristiano_last_5 = standarize_df(cristiano_last_5, max_goal_ratio, max_assist_ratio, max_sca, max_pass, max_sot)
-    rashford_last_5 = standarize_df(rashford_last_5, max_goal_ratio, max_assist_ratio, max_sca, max_pass, max_sot)
-    messi_last_5 = standarize_df(messi_last_5, max_goal_ratio, max_assist_ratio, max_sca, max_pass, max_sot)
-    suarez_last_5 = standarize_df(suarez_last_5, max_goal_ratio, max_assist_ratio, max_sca, max_pass, max_sot)
-    costa_last_5 = standarize_df(costa_last_5, max_goal_ratio, max_assist_ratio, max_sca, max_pass, max_sot)
-
-    players = [adjust_players_performance_data('Cristiano Ronaldo', cristiano_last_5), adjust_players_performance_data('Marcus Rashford', rashford_last_5), adjust_players_performance_data('Lionel Messi', messi_last_5), adjust_players_performance_data('Luis Suarez', suarez_last_5), adjust_players_performance_data('Diego Costa', costa_last_5) ]
-
-    return players
-
-
-
     top_comps = df_sorted.head(7)['Comp'].tolist()
     df_sorted['Comp_Category'] = df_sorted['Comp'].apply(lambda x: x if x in top_comps else 'Others')
     df_sorted['Team_Category'] = df_sorted['Teams'].apply(categorize_team)
     return df_sorted
+
+
+def visualisation_2_data():
+    # Get goal/assist statistics for each player
+    players = ['cristiano', 'rashford', 'messi', 'suarez', 'costa']
+    goal_ass_stats_list = []
+    for player in players:
+        stats = goal_ass_stats(player)
+        if player == 'cristiano':
+            stats = stats.drop([23]) # Remove seasons with Alnassr
+        goal_ass_stats_list.append(stats)
+
+    # Get shot statistics for each player
+    shot_stats_list = []
+    for player in players:
+        stats = shot_stats(player)
+        if player == 'cristiano':
+            stats = stats.drop([19, 22]) # Remove seasons with Alnassr
+        shot_stats_list.append(stats)
+
+    # Get pass statistics for each player
+    pass_stats_list = []
+    for player in players:
+        stats = pass_stats(player)
+        if player == 'cristiano':
+            stats = stats.drop([19, 23]) # Remove seasons with Alnassr
+        pass_stats_list.append(stats)
+
+    # Get shot percentage statistics for each player
+    shot_percentage_stats_list = []
+    for player in players:
+        stats = shot_percentage_stats(player)
+        if player == 'cristiano':
+            stats = stats.drop([20, 22]) # Remove seasons with Alnassr
+        shot_percentage_stats_list.append(stats)
+
+    # Get last 5 years of statistics for each player
+    last_5_years_list = []
+    for i in range(len(players)):
+        last_5_years = group_last_5_years_data(shot_stats_list[i], pass_stats_list[i], shot_percentage_stats_list[i], goal_ass_stats_list[i])
+        last_5_years.drop('Saison', axis=1, inplace=True)
+        last_5_years = last_5_years.astype(float)
+        last_5_years_list.append(last_5_years)
+
+    # Standardize the data for each player
+    max_values_list = []
+    for player in last_5_years_list:
+        max_values = player.apply(max, axis=0)
+        max_values_list.append(max_values)
+
+    concatenated_max_values = pd.concat(max_values_list, axis=1)
+    max_goal_ratio, max_assist_ratio, max_sca, max_pass, max_sot = concatenated_max_values.iloc[0:].max(axis=1)
+
+    standardized_data_list = []
+    for i in range(len(players)):
+        player_data = last_5_years_list[i]
+        max_values = max_values_list[i]
+        standardized_data = standarize_df(player_data, max_goal_ratio, max_assist_ratio, max_sca, max_pass, max_sot)
+        standardized_data_list.append(standardized_data)
+
+    # Adjust player names in the data
+    players_list = ['Cristiano Ronaldo', 'Marcus Rashford', 'Lionel Messi', 'Luis Suarez', 'Diego Costa']
+    adjusted_data_list = []
+    for i in range(len(players)):
+        adjusted_data = adjust_players_performance_data(players_list[i], standardized_data_list[i])
+        adjusted_data_list.append(adjusted_data)
+
+    return adjusted_data_list
+
+
+
 
 def visualization_4():
     df_sorted = get_visualization_data().copy()
