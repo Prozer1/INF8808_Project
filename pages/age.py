@@ -3,6 +3,8 @@ from dash import dcc, html, callback
 import plotly.express as px
 import dash_bootstrap_components as dbc
 from get_data import visualisation_1_data
+import plotly.graph_objects as go
+
 
 dash.register_page(__name__, name='Age', order=2)
 
@@ -47,7 +49,14 @@ layout = dbc.Row(
     [dash.dependencies.Input('mode-radio', 'value')]
 )
 def update_goals_graph(mode):
+    ages = data['Age']
+    goals = data['Total goals']
+    goals_per_game = data['Goals per game']
     if mode == 'Goals per game':
-        return px.bar(data, x='Age', y='Goals per game', title='Cristiano Ronaldo Goals per Game Ratio by Age', template='plotly_dark')
+        fig = go.Figure(data=[go.Bar(x=ages, y=goals, hovertemplate='Age: %{x} years<br>Goals: %{y} <extra></extra>')])
+        fig.update_layout(title='Goals scored by Ronaldo over his career', xaxis_title='Age', yaxis_title='Number of goals', template='plotly_dark')
+        return fig
     else:
-        return px.bar(data, x='Age', y='Total goals', title='Cristiano Ronaldo Total Goals by Age', template='plotly_dark')
+        fig = go.Figure(data=[go.Bar(x=ages, y=goals_per_game, hovertemplate='Age: %{x} years<br>Goals per game: %{y} <extra></extra>')])
+        fig.update_layout(title='Goals ratio ', xaxis_title='Age', yaxis_title='Number of goals',template='plotly_dark')
+        return fig

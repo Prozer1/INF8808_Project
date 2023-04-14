@@ -17,10 +17,11 @@ matches = team_stats['Matches']
 
 # Create the figure and the bar chart
 fig = go.Figure(data=[
-    go.Bar(name='Goals', x=teams, y=goals),
-    go.Bar(name='Assists', x=teams, y=assists),
-    go.Bar(name='Matches', x=teams, y=matches)
+    go.Bar(name='Goals', x=teams, y=goals, hovertemplate='Team: %{x} <br>Goals: %{y} <extra></extra>'),
+    go.Bar(name='Assists', x=teams, y=assists, hovertemplate='Team: %{x} <br>Assists: %{y} <extra></extra>'),
+    go.Bar(name='Matches', x=teams, y=matches, hovertemplate='Team: %{x} <br>Number of Matches: %{y} <extra></extra>')
 ])
+
 
 # Set the layout of the chart
 fig.update_layout(
