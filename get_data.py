@@ -46,9 +46,64 @@ def visualisation_2_data():
     team_stats = team_stats.iloc[:15].reset_index()
     return team_stats
     
+def categorize_team(team_list):
+    return 'OthersWithNT' if 'Portugal' in team_list else 'Others'
 
+def get_visualization_data():
+    df = get_data_from_file("./datasets/cristiano/goals.xlsx")
+    df = df[['Clt', 'Comp', 'Équipe']]
+    goals_by_comp = df.groupby(['Comp'])['Clt'].count().reset_index(name='Goals')
+    teams_by_comp = df.groupby(['Comp'])['Équipe'].unique().reset_index().rename(columns={'Comp': 'Comp_teams', 'Équipe': 'Teams'})
+    teams_by_comp['Teams'] = teams_by_comp['Teams'].apply(lambda x: x.tolist())
+    merged_data = pd.merge(goals_by_comp, teams_by_comp, left_on='Comp', right_on='Comp_teams').drop('Comp_teams', axis=1)
+    df_sorted = merged_data.sort_values("Goals", ascending=False)
 
+    top_comps = df_sorted.head(7)['Comp'].tolist()
+    df_sorted['Comp_Category'] = df_sorted['Comp'].apply(lambda x: x if x in top_comps else 'Others')
+    df_sorted['Team_Category'] = df_sorted['Teams'].apply(categorize_team)
+    return df_sorted
 
+def visualization_4():
+    df_sorted = get_visualization_data().copy()
+    df_sorted['Comp_Category'] = df_sorted.apply(lambda row: row['Team_Category'] if row['Comp_Category'] == 'Others' else row['Comp_Category'], axis=1)
+    df_sorted = df_sorted[['Comp', 'Goals', 'Teams', 'Comp_Category']]
+
+    comps_by_category = df_sorted.groupby(['Comp_Category'])['Comp'].unique().reset_index().rename(columns={'Comp_Category': 'Comp_Category1'})
+    comps_by_category['Comp'] = comps_by_category['Comp'].apply(lambda x: x.tolist())
+
+    goals_by_category = df_sorted.groupby(['Comp_Category'])['Goals'].sum().reset_index(name='Goals')
+    merged_data = pd.merge(comps_by_category, goals_by_category, left_on='Comp_Category1', right_on='Comp_Category').drop('Comp_Category1', axis=1)
+
+    teams_by_category = df_sorted.groupby('Comp_Category').agg({'Teams': sum}).reset_index().rename(columns={'Comp_Category': 'Comp_Category1'})
+    teams_by_category['Teams'] = teams_by_category['Teams'].apply(lambda x: list(set(x)))
+    merged_data = pd.merge(teams_by_category, merged_data, left_on='Comp_Category1', right_on='Comp_Category').drop('Comp_Category1', axis=1).drop('Teams', axis=1)
+
+    df_final = merged_data.sort_values("Comp_Category").rename(columns={'Teams': 'Teams'})
+    return df_final
+
+def visualization_5():
+    df_team_sorted = get_visualization_data().copy()
+    df_team_sorted['Team_Category'] = df_team_sorted['Team_Category'].apply(lambda x: 'National Team' if 'OthersWithNT' in x else 'Clubs')
+
+    goals_by_team_category = df_team_sorted.groupby(['Team_Category'])['Goals'].sum().reset_index(name='Goals')
+    return goals_by_team_category
+
+def visualization_10() : 
+    # Load data and select only relevant columns
+    df_assist = pd.read_excel("./datasets/cristiano/goals.xlsx", usecols=['Clt', 'Passe décisive'])
+
+    # Drop rows with missing values in the 'Passe décisive' column
+    df_assist.dropna(subset=['Passe décisive'], inplace=True)
+
+    # Count number of goals per player and sort in descending order
+    df_assist = df_assist.groupby('Passe décisive').agg(nbPasse=('Clt', 'count')).sort_values('nbPasse', ascending=False).reset_index()
+
+    # Keep only the top ten players with the highest number of assists and sort by player name
+    df_assist = df_assist.nlargest(10, 'nbPasse').sort_values('Passe décisive')
+    
+    return df_assist
+
+    
 def question_1_data():
     goal_data = get_data_from_file("./datasets/cr7_goals.xlsx")
     filtered_data = goal_data.filter(['Date','Comp','Équipe', 'Partie du corps', 'Distance', 'Minute'], axis=1)
@@ -145,3 +200,8 @@ def question_9_data():
     filtered_data = filtered_data[~filtered_data['Type'].isin(['Solo run', 'Penalty rebound', 'Counter attack goal', 'Deflected shot on goal'])]
     filtered_data = filtered_data.sort_values(by=['Date'])
     return filtered_data
+
+
+
+if __name__ == "__main__":
+   print(visualization_10())
