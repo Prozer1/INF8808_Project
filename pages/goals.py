@@ -37,8 +37,8 @@ layout = html.Div(
             [
                 dbc.Col(
                     [
-                        dbc.Button("Goals Per Minute", id="minute-btn", className="me-md-2", active=True),
-                        dbc.Button("Goal Types", id="type-btn", active=False),
+                        dbc.Button("Goals Per Minute", id="minute-btn",color='info', className="me-md-2"),
+                        dbc.Button("Goal Types", id="type-btn", color='primary'),
                     ],width=12, className="d-grid gap-2 d-md-flex justify-content-md-center mt-2 "
                 )
             ]
@@ -47,7 +47,9 @@ layout = html.Div(
 )
 
 @callback(
-    Output("graph-fig", "figure"),
+    [Output("graph-fig", "figure"),
+     Output("minute-btn", "color"),
+     Output("type-btn", "color")],
     Input("minute-btn", "n_clicks"),
     Input("type-btn", "n_clicks"),
     prevent_initial_call=True,
@@ -55,6 +57,6 @@ layout = html.Div(
 def switch_figure(_, __):
     button_clicked = ctx.triggered_id
     if button_clicked == 'minute-btn':
-        return px.line(df_8, x=df_8.index, y='Date', title="Goals per minute", labels={ "Date": "Goals" }, template="plotly_dark")
+        return (px.line(df_8, x=df_8.index, y='Date', title="Goals per minute", labels={ "Date": "Goals" }, template="plotly_dark"), 'info', 'primary')
     elif button_clicked == 'type-btn':
-        return px.line(df_9, x="Date", y="Count", color='Type', title='Type of goals per year',template="plotly_dark")
+        return (px.line(df_9, x="Date", y="Count", color='Type', title='Type of goals per year',template="plotly_dark"), 'primary', 'info')

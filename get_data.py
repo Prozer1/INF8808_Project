@@ -123,6 +123,9 @@ def question_7_ranking_data():
     # Grouping data by teams
     ranking_df = pd.pivot_table(numerical_rank, index='Saison', columns='Équipe', values='CltChamp')
     
+    # Add Column of the current team
+    ranking_df['Team'] = ranking_df.idxmax(axis=1)
+    
     return ranking_df
 
 def question_7_trophies_data():
@@ -143,14 +146,14 @@ def question_7_trophies_data():
     merged_df[['CltChamp']] = merged_df[['CltChamp']].replace(['W', '1er'], 1)
     merged_df[['CltChamp']] = merged_df[['CltChamp']].replace(to_replace=r'\b(?!1\b)(?!W\b)\w+\b', value=0, regex=True)
     
-    # Count trophies for each season
-    count = merged_df.groupby(['Saison', 'Équipe'])['CltChamp'].sum()
+    # filter the rows where CltChamp = 1, group by Saison and aggregate the Comp names
+    trophies_df = merged_df[merged_df['CltChamp'] == 1].groupby(['Saison','Équipe'])['Comp'].agg(list)
     
     # Reset the index and rename the additional column
-    trophies_df = count.reset_index().rename(columns={'value': 'Count'})
-
-    # Grouping data by teams
-    trophies_df = pd.pivot_table(trophies_df, index='Saison', columns='Équipe', values='CltChamp')
+    trophies_df = trophies_df.reset_index().rename(columns={'value': 'Comp'})
+    
+    # Count trophies for each season
+    trophies_df['Comp_count'] = trophies_df['Comp'].apply(lambda x: len(x))
 
     return trophies_df
     
