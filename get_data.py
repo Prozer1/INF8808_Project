@@ -201,7 +201,3 @@ def question_9_data():
     filtered_data = filtered_data.sort_values(by=['Date'])
     return filtered_data
 
-
-
-if __name__ == "__main__":
-   print(visualization_10())
