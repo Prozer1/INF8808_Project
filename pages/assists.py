@@ -1,11 +1,12 @@
 import dash
-from dash import dcc,html
-import plotly.express as px
+from dash import dcc, html
+import plotly.graph_objs as go
 import dash_bootstrap_components as dbc
+from get_data import visualization_10
 
-dash.register_page(__name__, name='Assists',order=7)
+dash.register_page(__name__, name='Assists', order=7)
 
-df = px.data.gapminder()
+df_assist = visualization_10()
 
 layout = html.Div(
     [
@@ -14,7 +15,7 @@ layout = html.Div(
                 dbc.Col(
                     [
                         html.Div("Assists", style={'fontSize': 24, 'color': '#ffffff'})
-                    ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
+                    ], xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
                 )
             ]
         ),
@@ -22,12 +23,14 @@ layout = html.Div(
             [
                 dbc.Col(
                     [
-                        dcc.Graph(id='line-fig',
-                            figure=px.histogram(df, x='continent', y='lifeExp', histfunc='avg', template="plotly_dark"))
-                    ],width=12
+                        dcc.Graph(id='assist-bar-chart',
+                                  figure=go.Figure(data=[go.Bar(x=df_assist['Passe décisive'], y=df_assist['nbPasse'], text=df_assist['nbPasse'],
+                                                                textposition='auto', hoverinfo='skip')],
+                                                   layout=go.Layout(title='Top 10 players to assist Cristiano Ronaldo',
+                                                                    template="plotly_dark")))
+                    ], width=12
                 )
             ]
         )
-        
     ]
 )
