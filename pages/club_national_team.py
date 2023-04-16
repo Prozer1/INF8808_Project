@@ -10,6 +10,9 @@ dash.register_page(__name__, name='Clubs Ranking/Trophies',order=5)
 ranking_df = question_7_ranking_data()
 trophies_df = question_7_trophies_data()
 teams_name = ranking_df.columns[:-1]
+figure=px.line(ranking_df, x=ranking_df.index, y=ranking_df.columns[:-1], title="Club Ranking per Season", custom_data=['Team'], markers=True, template="plotly_dark")
+figure.update_traces(hovertemplate=get_hover_template('ranking-btn'))
+figure.update_layout(xaxis=dict(title='Season'), yaxis=dict(title='Rank'))
 
 layout = html.Div(
     [
@@ -27,7 +30,7 @@ layout = html.Div(
                 dbc.Col(
                     [
                         dcc.Graph(id='line-fig',
-                            figure=px.line(ranking_df, x=ranking_df.index, y=ranking_df.columns[:-1], title="Club Ranking per Season", markers=True, template="plotly_dark"),
+                            figure=figure,
                         )
                     ],width=12
                 )
@@ -60,8 +63,10 @@ def switch_figure(_, __):
     if button_clicked == 'ranking-btn':
         figure = px.line(ranking_df, x=ranking_df.index, y=ranking_df.columns[:-1], title="Club Ranking per Season",custom_data=['Team'], markers=True, template="plotly_dark")
         figure.update_traces(hovertemplate=get_hover_template('ranking-btn'))
+        figure.update_layout(xaxis=dict(title='Season'), yaxis=dict(title='Rank'))
         return (figure, 'info', 'primary')
     elif button_clicked == 'trophies-btn':
         figure = px.bar(trophies_df, x='Saison', y='Comp_count', title="Number of Trophies Won per Season", custom_data=['Comp', 'Équipe'], color='Équipe', template="plotly_dark")
         figure.update_traces(hovertemplate=get_hover_template('trophies-btn'))
+        figure.update_layout(xaxis=dict(title='Season'), yaxis=dict(title='Number of trophies'))
         return (figure, 'primary', 'info')
