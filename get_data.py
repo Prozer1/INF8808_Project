@@ -11,6 +11,14 @@ def get_data_from_file(file_name):
     return sheetX
 
 def goal_ass_stats(player_name):
+    """_summary_
+
+    Args:
+        player_name (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     df_goals_ass = pd.read_csv('./datasets/' + player_name + '/stats.csv')
     df_goals_ass = utils.format_dataframe(df_goals_ass)
     goal_ass_stats = df_goals_ass[['Saison', 'Par90minutes.Buts', 'Par90minutes.PD']]
@@ -19,10 +27,26 @@ def goal_ass_stats(player_name):
     return goal_ass_stats
 
 def shot_stats(player_name):
+    """_summary_
+
+    Args:
+        player_name (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     df_shot = pd.read_csv('./datasets/' + player_name + '/shot_creation.csv')[["Season", "SCA90"]]
     return df_shot
 
 def pass_stats(player_name):
+    """_summary_
+
+    Args:
+        player_name (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     df_pass = pd.read_csv('./datasets/' + player_name + '/pass.csv')
     df_pass = utils.format_dataframe(df_pass)
 
@@ -30,6 +54,17 @@ def pass_stats(player_name):
     return df_pass
 
 def group_last_5_years_data(df_shot, df_pass, df_shot_percentage, goal_ass_stats):
+    """_summary_
+
+    Args:
+        df_shot (_type_): _description_
+        df_pass (_type_): _description_
+        df_shot_percentage (_type_): _description_
+        goal_ass_stats (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     df_shot = df_shot.tail(5)
     df_pass = df_pass.tail(5)
     df_shot_percentage = df_shot_percentage.tail(5)
@@ -41,12 +76,33 @@ def group_last_5_years_data(df_shot, df_pass, df_shot_percentage, goal_ass_stats
     return group_by_season
 
 def shot_percentage_stats(player_name):
+    """_summary_
+
+    Args:
+        player_name (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     df_shot_percentage = pd.read_csv('./datasets/' + player_name + '/shot.csv')
     df_shot_percentage = utils.format_dataframe(df_shot_percentage)
     df_shot_percentage = df_shot_percentage[["Season", "Standard.SoT%"]]
     return df_shot_percentage
 
 def standarize_df(df, max_goal_ratio, max_assist_ratio, max_sca, max_pass, max_sot):
+    """_summary_
+
+    Args:
+        df (_type_): _description_
+        max_goal_ratio (_type_): _description_
+        max_assist_ratio (_type_): _description_
+        max_sca (_type_): _description_
+        max_pass (_type_): _description_
+        max_sot (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     df['Par90minutes.Buts'] = df['Par90minutes.Buts'] / max_goal_ratio
     df['Par90minutes.PD'] = df['Par90minutes.PD'] / max_assist_ratio
     df['SCA90'] = df['SCA90'] / max_sca
@@ -55,6 +111,11 @@ def standarize_df(df, max_goal_ratio, max_assist_ratio, max_sca, max_pass, max_s
     return df
 
 def visualisation_1_data():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     df = pd.read_csv('./datasets/cristiano/stats.csv')
     for title in df.columns:
         if title.startswith("Unnamed"):
@@ -75,6 +136,11 @@ def visualisation_1_data():
     return group_by_age
 
 def visualisation_6_data():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     df = pd.DataFrame()
     for i in range(2002, 2023):
         df = pd.concat([df, pd.read_csv("./datasets/matches/" + str(i) + "-" + str(i+1) + ".csv")[['Date', 'Adversaire', 'Buts', 'PD']]])
@@ -91,6 +157,15 @@ def visualisation_6_data():
 
 
 def adjust_players_performance_data(name, df):
+    """_summary_
+
+    Args:
+        name (_type_): _description_
+        df (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     values = []
     for i, row in df.iterrows():
         year = int(i+1)
@@ -99,9 +174,22 @@ def adjust_players_performance_data(name, df):
     return {'name': name, 'values': values}
     
 def categorize_team(team_list):
+    """_summary_
+
+    Args:
+        team_list (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     return 'OthersWithNT' if 'Portugal' in team_list else 'Others'
 
 def get_visualization_data():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     df = get_data_from_file("./datasets/cristiano/goals.xlsx")
     df = df[['Clt', 'Comp', 'Équipe']]
     goals_by_comp = df.groupby(['Comp'])['Clt'].count().reset_index(name='Goals')
@@ -116,6 +204,11 @@ def get_visualization_data():
 
 
 def visualisation_2_data():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     # Get goal/assist statistics for each player
     players = ['cristiano', 'rashford', 'messi', 'suarez', 'costa']
     goal_ass_stats_list = []
@@ -182,10 +275,12 @@ def visualisation_2_data():
 
     return adjusted_data_list
 
-
-
-
 def visualization_4():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     df_sorted = get_visualization_data().copy()
     df_sorted['Comp_Category'] = df_sorted.apply(lambda row: row['Team_Category'] if row['Comp_Category'] == 'Others' else row['Comp_Category'], axis=1)
     df_sorted = df_sorted[['Comp', 'Goals', 'Teams', 'Comp_Category']]
@@ -204,13 +299,23 @@ def visualization_4():
     return df_final
 
 def visualization_5():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     df_team_sorted = get_visualization_data().copy()
     df_team_sorted['Team_Category'] = df_team_sorted['Team_Category'].apply(lambda x: 'National Team' if 'OthersWithNT' in x else 'Clubs')
 
     goals_by_team_category = df_team_sorted.groupby(['Team_Category'])['Goals'].sum().reset_index(name='Goals')
     return goals_by_team_category
 
-def visualization_10() : 
+def visualization_10():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     # Load data and select only relevant columns
     df_assist = pd.read_excel("./datasets/cristiano/goals.xlsx", usecols=['Clt', 'Passe décisive'])
 
@@ -225,13 +330,12 @@ def visualization_10() :
     
     return df_assist
 
-    
-def question_1_data():
-    goal_data = get_data_from_file("./datasets/cr7_goals.xlsx")
-    filtered_data = goal_data.filter(['Date','Comp','Équipe', 'Partie du corps', 'Distance', 'Minute'], axis=1)
-    return filtered_data
-
 def question_7_ranking_data():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     # Load raw data
     raw_data = get_data_from_file("./datasets/cr7_club_ranking.xlsx")
     
@@ -251,6 +355,11 @@ def question_7_ranking_data():
     return ranking_df
 
 def question_7_trophies_data():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     # Load raw data
     ligue_data = get_data_from_file("./datasets/cr7_ligues_nat.xlsx")
     coup_nat_data = get_data_from_file("./datasets/cr7_coupes_nat.xlsx")
@@ -280,6 +389,11 @@ def question_7_trophies_data():
     return trophies_df
     
 def question_8_data():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     # Load raw data
     raw_data = get_data_from_file("./datasets/all_goals.xlsx")
     

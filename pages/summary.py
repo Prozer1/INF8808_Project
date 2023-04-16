@@ -3,7 +3,7 @@ from dash import dcc,html
 import plotly.express as px
 import dash_bootstrap_components as dbc
 
-dash.register_page(__name__, name='Summary', path='/',order=1)
+dash.register_page(__name__, name='Accueil', path='/',order=1)
 
 df = px.data.gapminder()
 
@@ -13,7 +13,7 @@ layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.Div("Summary", style={'fontSize': 24, 'color': '#ffffff'})
+                        html.Div("Accueil", style={'fontSize': 24, 'color': '#ffffff'})
                     ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
                 )
             ]
@@ -22,12 +22,17 @@ layout = html.Div(
             [
                 dbc.Col(
                     [
-                        dcc.Graph(id='line-fig',
-                            figure=px.histogram(df, x='continent', y='lifeExp', histfunc='avg', template="plotly_dark"))
-                    ],width=12
+                        html.Div("L'équipe 3 - SportsAI", style={'fontSize': 18, 'color': '#ffffff'})
+                    ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
+                ),
+                 dbc.Col(
+                    [
+                        html.Div("Samia Safaa, Sanmar Simon, Ayman Atmani", style={'fontSize': 18, 'color': '#ffffff'}),
+                        html.Div("Hugo Juillet, Abderrahmane Grou", style={'fontSize': 18, 'color': '#ffffff'})
+                    ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
                 )
             ]
-        )
+        ),
         
     ]
 )

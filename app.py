@@ -40,8 +40,6 @@ app.layout = dbc.Container([
     ])
 ], fluid=True, class_name="bg-dark vh-100")
 
-# from pages.club_national_team import switch_callback
-# switch_callback(app)
 
 if __name__ == "__main__":
     app.run(debug=True, port=os.getenv('PORT','8050'), host='0.0.0.0', dev_tools_silence_routes_logging = False)
