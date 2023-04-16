@@ -5,7 +5,27 @@ import dash_bootstrap_components as dbc
 
 dash.register_page(__name__, name='Accueil', path='/',order=1)
 
-df = px.data.gapminder()
+table_header = [
+    html.Thead(html.Tr([html.Th("First Name"), html.Th("Last Name")]))
+]
+
+row1 = html.Tr([html.Td("Samia"), html.Td("Safaa")])
+row2 = html.Tr([html.Td("Abderrahmane"), html.Td("Grou")])
+row3 = html.Tr([html.Td("Ayman"), html.Td("Atmani")])
+row4 = html.Tr([html.Td("Sanmar"), html.Td("Simon")])
+row5 = html.Tr([html.Td("Hugo"), html.Td("Juillet")])
+
+table_body = [html.Tbody([row1, row2, row3, row4, row5])]
+
+table = dbc.Table(
+    # using the same table as in the above example
+    table_header + table_body,
+    bordered=True,
+    dark=True,
+    hover=True,
+    responsive=True,
+    striped=True,
+)
 
 layout = html.Div(
     [
@@ -13,7 +33,7 @@ layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.Div("Accueil", style={'fontSize': 24, 'color': '#ffffff'})
+                        html.H1("Accueil", style={'color': '#ffffff'})
                     ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
                 )
             ]
@@ -22,17 +42,25 @@ layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.Div("L'équipe 3 - SportsAI", style={'fontSize': 18, 'color': '#ffffff'})
-                    ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
+                        html.H2("L'équipe 3 - SportsAI", style={'fontSize': 20, 'color': '#ffffff'}),
+                        table
+                    ], className='p-3',xs=10, sm=10, md=8, lg=6, xl=6, xxl=6
                 ),
-                 dbc.Col(
+                dbc.Col(
                     [
-                        html.Div("Samia Safaa, Sanmar Simon, Ayman Atmani", style={'fontSize': 18, 'color': '#ffffff'}),
-                        html.Div("Hugo Juillet, Abderrahmane Grou", style={'fontSize': 18, 'color': '#ffffff'})
+                        html.Img(src='./assets/cristiano_pic.png', height='500')
                     ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
                 )
             ]
-        ),
+        ),dbc.Row(
+            [
+                dbc.Col(
+                    [
+                        html.P("Some description here about the project! Have fun", style={'color': '#ffffff'})
+                    ],xs=10, sm=10, md=8, lg=6, xl=6, xxl=6
+                )
+            ]
+        )
         
     ]
 )
