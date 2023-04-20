@@ -2,12 +2,12 @@ import dash
 from dash import dcc,html, Input, Output, callback, ctx
 import plotly.express as px
 import dash_bootstrap_components as dbc
-from get_data import question_8_data, question_9_data
+from get_data import get_goals_by_minute, get_goals_by_type
 
 dash.register_page(__name__, name='Goals',order=6)
-
-df_8 = question_8_data()
-df_9 = question_9_data()
+ALL_GOALS_FILEPATH = "./datasets/all_goals.xlsx"
+goals_by_mins = get_goals_by_minute(ALL_GOALS_FILEPATH)
+goals_by_types = get_goals_by_type(ALL_GOALS_FILEPATH)
 
 layout = html.Div(
     [
@@ -25,7 +25,7 @@ layout = html.Div(
                 dbc.Col(
                     [
                         dcc.Graph(id='graph-fig',
-                            figure=px.line(df_8, x=df_8.index, y='Date', title="Goals per minute",
+                            figure=px.line(goals_by_mins, x=goals_by_mins.index, y='Date', title="Goals per minute",
                                            labels={ "Date": "Goals" },
                                            template="plotly_dark"
                                            ))
@@ -57,6 +57,6 @@ layout = html.Div(
 def switch_figure(_, __):
     button_clicked = ctx.triggered_id
     if button_clicked == 'minute-btn':
-        return (px.line(df_8, x=df_8.index, y='Date', title="Goals per minute", labels={ "Date": "Goals" }, template="plotly_dark"), 'info', 'primary')
+        return (px.line(goals_by_mins, x=goals_by_mins.index, y='Date', title="Goals per minute", labels={ "Date": "Goals" }, template="plotly_dark"), 'info', 'primary')
     elif button_clicked == 'type-btn':
-        return (px.line(df_9, x="Date", y="Count", color='Type', title='Type of goals per year',template="plotly_dark"), 'primary', 'info')
+        return (px.line(goals_by_types, x="Date", y="Count", color='Type', title='Type of goals per year',template="plotly_dark"), 'primary', 'info')

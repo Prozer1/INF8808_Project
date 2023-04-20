@@ -2,10 +2,10 @@ import pandas as pd
 import plotly.express as px
 import utils
 
-def get_data_from_file(file_name):
+def get_data_from_file(file_path):
     # file_name = "./datasets/cr7_goals.xlsx"
 
-    xls = pd.ExcelFile(file_name)
+    xls = pd.ExcelFile(file_path)
 
     sheetX = xls.parse(0)
     return sheetX
@@ -388,14 +388,14 @@ def question_7_trophies_data():
 
     return trophies_df
     
-def question_8_data():
-    """_summary_
+def get_goals_by_minute(file_path):
+    """Get the number of goals scored by minute
 
     Returns:
-        _type_: _description_
+        dataframe: Pandas DF with Minute and Count as columns
     """
     # Load raw data
-    raw_data = get_data_from_file("./datasets/all_goals.xlsx")
+    raw_data = get_data_from_file(file_path)
     
     # Filter data
     filtered_data = raw_data.filter(['Date', 'Minute'], axis=1)
@@ -412,13 +412,13 @@ def question_8_data():
     
     return goal_by_minute.loc[:90]
     
-def question_9_data():
-    """This is the function to get the data and filters it to answer the question 9.
+def get_goals_by_type(file_path):
+    """ Get the number of goals scored by type, per year
 
     Returns:
         dataframe: Pandas DF with Date, Type and Count as columns
     """
-    all_goals = get_data_from_file("./datasets/all_goals.xlsx")
+    all_goals = get_data_from_file(file_path)
     filtered_data = all_goals.filter(['Date','Type'], axis=1)
     for count, date in enumerate(filtered_data.Date):
         date = date.split('/')
