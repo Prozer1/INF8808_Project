@@ -2,12 +2,12 @@ import dash
 from dash import dcc, html, callback, Input, Output, ctx
 import plotly.graph_objs as go
 import dash_bootstrap_components as dbc
-from get_data import visualization_4, visualization_5
+from get_goals_data import get_goals_visualization, get_goals_by_team_category
 
 dash.register_page(__name__, name='Championships', order=3)
 
-df = visualization_4()
-df2 = visualization_5()
+df1 = get_goals_visualization()
+df2 = get_goals_by_team_category()
 
 layout = html.Div(
     [
@@ -25,29 +25,17 @@ layout = html.Div(
                 dbc.Col(
                     [
                         dcc.Graph(id='bar-chart',
-                                  figure=go.Figure(data=[go.Bar(x=df['Comp_Category'], y=df['Goals'], text=df['Goals'],
+                                  figure=go.Figure(data=[go.Bar(x=df1['Comp_Category'], y=df1['Goals'], text=df1['Goals'],
                                                                 textposition='auto',
                                                                 hovertemplate="<b>Teams: </b>%{customdata}<br><extra></extra>",
-                                                                customdata=df['Teams'].tolist())],
+                                                                customdata=df1['Teams'].tolist())],
                                                    layout=go.Layout(title='Goals by Competition Category',
                                                                     template="plotly_dark")))
                     ], width=12
                 ),
             ]
         ),
-        # dbc.Row(
-        #     [
-        #         dbc.Col(
-        #             [
-        #                 dcc.Graph(id='bar-chart-2',
-        #                           figure=go.Figure(data=[go.Bar(x=df2['Team_Category'], y=df2['Goals'], text=df2['Goals'],
-        #                                                         textposition='auto', hoverinfo='skip')],
-        #                                            layout=go.Layout(title='Goals by Team Category',
-        #                                                             template="plotly_dark")))
-        #             ], width=12
-        #         )
-        #     ]
-        # ),
+        
         dbc.Row(
             [
                 dbc.Col(
@@ -72,7 +60,7 @@ layout = html.Div(
 def switch_figure(_, __):
     button_clicked = ctx.triggered_id
     if button_clicked == 'comp-btn':
-        return (go.Figure(data=[go.Bar(x=df['Comp_Category'], y=df['Goals'], text=df['Goals'],
+        return (go.Figure(data=[go.Bar(x=df['Comp_Category'], y=df1['Goals'], text=df1['Goals'],
                                                                 textposition='auto',
                                                                 hovertemplate="Teams: %{customdata}<br>",
                                                                 customdata=df['Teams'].tolist())],
