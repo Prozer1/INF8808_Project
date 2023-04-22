@@ -18,7 +18,7 @@ def get_goals_data():
     # Read the goals data from a file
 
     xls = pd.ExcelFile("./datasets/cristiano/goals.xlsx")
-    goals_df = sheetX = xls.parse(0)
+    goals_df = xls.parse(0)
     
     # Select only relevant columns from the DataFrame
     goals_df = goals_df[['Clt', 'Comp', 'Équipe']]
