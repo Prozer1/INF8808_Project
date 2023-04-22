@@ -2,11 +2,11 @@ import dash
 from dash import dcc, html
 import plotly.graph_objs as go
 import dash_bootstrap_components as dbc
-from get_data import visualization_10
+from get_assists_data import get_top_assisting_players
 
 dash.register_page(__name__, name='Assists', order=7)
 
-df_assist = visualization_10()
+df_assist = get_top_assisting_players()
 
 layout = html.Div(
     [

@@ -341,25 +341,30 @@ def get_goals_by_team_category():
 
     return goals_by_team_category
 
-def visualization_10():
-    """_summary_
-
+def get_top_assisting_players():
+    """
+    Loads data about goals and assists, selects relevant columns,
+    drops missing values in the assists column, counts the number of
+    assists per player, keeps only the top ten players with the most
+    assists, and sorts them by player name.
+    
     Returns:
-        _type_: _description_
+        pandas.DataFrame: A DataFrame containing information about the top
+        ten players with the highest number of assists.
     """
     # Load data and select only relevant columns
-    df_assist = pd.read_excel("./datasets/cristiano/goals.xlsx", usecols=['Clt', 'Passe décisive'])
+    goals_data = pd.read_excel("./datasets/cristiano/goals.xlsx", usecols=['Clt', 'Passe décisive'])
 
     # Drop rows with missing values in the 'Passe décisive' column
-    df_assist.dropna(subset=['Passe décisive'], inplace=True)
+    goals_data.dropna(subset=['Passe décisive'], inplace=True)
 
-    # Count number of goals per player and sort in descending order
-    df_assist = df_assist.groupby('Passe décisive').agg(nbPasse=('Clt', 'count')).sort_values('nbPasse', ascending=False).reset_index()
+    # Count number of assists per player and sort in descending order
+    assists_data = goals_data.groupby('Passe décisive').agg(assists_count=('Clt', 'count')).sort_values('assists_count', ascending=False).reset_index()
 
     # Keep only the top ten players with the highest number of assists and sort by player name
-    df_assist = df_assist.nlargest(10, 'nbPasse').sort_values('Passe décisive')
+    top_assisting_players = assists_data.nlargest(10, 'assists_count').sort_values('Passe décisive')
     
-    return df_assist
+    return top_assisting_players
 
 def question_7_ranking_data():
     """_summary_
