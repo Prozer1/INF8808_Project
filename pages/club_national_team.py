@@ -12,7 +12,8 @@ trophies_df = question_7_trophies_data()
 teams_name = ranking_df.columns[:-1]
 figure=px.line(ranking_df, x=ranking_df.index, y=ranking_df.columns[:-1], title="Club Ranking per Season", custom_data=['Team'], markers=True, template="plotly_dark")
 figure.update_traces(hovertemplate=get_hover_template('ranking-btn'))
-figure.update_layout(xaxis=dict(title='Season'), yaxis=dict(title='Rank'))
+figure.update_yaxes(title_text='', showticklabels=True)
+figure.update_layout(xaxis=dict(title='Season'), annotations=[dict(text="Rank",x=-0.75,y=6.5,showarrow=False,font=dict(size=16))])
 
 layout = html.Div(
     [
@@ -63,10 +64,11 @@ def switch_figure(_, __):
     if button_clicked == 'ranking-btn':
         figure = px.line(ranking_df, x=ranking_df.index, y=ranking_df.columns[:-1], title="Club Ranking per Season",custom_data=['Team'], markers=True, template="plotly_dark")
         figure.update_traces(hovertemplate=get_hover_template('ranking-btn'))
-        figure.update_layout(xaxis=dict(title='Season'), yaxis=dict(title='Rank'))
+        figure.update_layout(xaxis=dict(title='Season'),annotations=[dict(text="Rank", x=-0.75, y=6.5, showarrow=False, font=dict(size=16))])
         return (figure, 'info', 'primary')
     elif button_clicked == 'trophies-btn':
         figure = px.bar(trophies_df, x='Saison', y='Comp_count', title="Number of Trophies Won per Season", custom_data=['Comp', 'Équipe'], color='Équipe', template="plotly_dark")
         figure.update_traces(hovertemplate=get_hover_template('trophies-btn'))
-        figure.update_layout(xaxis=dict(title='Season'), yaxis=dict(title='Number of trophies'))
+        figure.update_yaxes(title_text='', showticklabels=True)
+        figure.update_layout(xaxis=dict(title='Season'),annotations=[dict(text="Number of trophies", x=0, y=3.2, showarrow=False, font=dict(size=16))])
         return (figure, 'primary', 'info')

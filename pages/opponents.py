@@ -27,7 +27,6 @@ fig = go.Figure(data=[
 fig.update_layout(
     title='Cristiano Ronaldo Goals, Assists, and Matches Against different teams in his Football Career',
     xaxis_title='Opponent Teams',
-    yaxis_title='Number',
     barmode='group',
     template='plotly_dark'
 )
