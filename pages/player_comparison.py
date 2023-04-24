@@ -3,11 +3,11 @@ from dash import dcc,html
 import plotly.express as px
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
-from get_data import visualisation_2_data
+from get_players_data import get_players_statistics
 
 dash.register_page(__name__, name='Player comparison',order=8)
 
-players = visualisation_2_data()
+players = get_players_statistics()
 
 # Create traces for each player
 traces = []
