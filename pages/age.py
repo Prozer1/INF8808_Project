@@ -2,13 +2,13 @@ import dash
 from dash import dcc, html, callback
 import plotly.express as px
 import dash_bootstrap_components as dbc
-from get_data import visualisation_1_data
+from get_age_data import get_data
 import plotly.graph_objects as go
 
 
 dash.register_page(__name__, name='Age', order=2)
 
-data = visualisation_1_data()
+data = get_data()
 
 layout = dbc.Row(
     [
