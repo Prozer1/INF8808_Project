@@ -1,4 +1,5 @@
 """This file contains contains functions for processing and analyzing data related to goals scored by Cristiano Ronaldo. """
+
 import pandas as pd
 from get_data  import get_data_from_file
 ALL_GOALS_FILEPATH = "./datasets/all_goals.xlsx"

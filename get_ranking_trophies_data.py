@@ -1,5 +1,12 @@
 """the file contain two functions that load and clean up data related to Cristiano Ronaldo's club rankings and trophies"""
+
 import pandas as pd
+from get_data import get_data_from_file
+CLUB_RANKING_FILEPATH ="./datasets/cr7_club_ranking.xlsx"
+LIGUE_FILEPATH = "./datasets/cr7_ligues_nat.xlsx" 
+NATIONAl_COMP_FILEPATH = "./datasets/cr7_coupes_nat.xlsx" 
+INTERNATIONAL_COMP_FILEPATH = "./datasets/cr7_coupes_inter.xlsx"
+
 
 def get_ranking_data():
     """
@@ -8,7 +15,7 @@ def get_ranking_data():
         ranking_df (pandas.DataFrame): Dataframe with club rankings by season.
     """
     # Load raw data
-    raw_data = pd.read_excel("./datasets/cr7_club_ranking.xlsx") 
+    raw_data = get_data_from_file(CLUB_RANKING_FILEPATH) 
     
     # Filter data
     filtered_data = raw_data.filter(['Saison','Équipe', 'CltChamp'], axis=1)
@@ -33,9 +40,9 @@ def get_trophies_data():
         trophies_df (pandas.DataFrame): Dataframe with number of trophies won by CR7 and his teams.
     """
     # Load raw data
-    ligue_data = pd.read_excel("./datasets/cr7_ligues_nat.xlsx") 
-    coup_nat_data = pd.read_excel("./datasets/cr7_coupes_nat.xlsx") 
-    coup_inter_data = pd.read_excel("./datasets/cr7_coupes_inter.xlsx") 
+    ligue_data = get_data_from_file(LIGUE_FILEPATH) 
+    coup_nat_data = get_data_from_file(NATIONAl_COMP_FILEPATH) 
+    coup_inter_data = get_data_from_file(INTERNATIONAL_COMP_FILEPATH) 
     
     # Get the season, team name, competition, and ranking
     filtered_ligue_data = ligue_data.filter(['Saison','Équipe', 'Comp', 'CltChamp'], axis=1)
