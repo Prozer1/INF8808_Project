@@ -1,6 +1,6 @@
 FROM python:3.9.10
 
-WORKDIR /tmp/git/INF8808_Project
+WORKDIR /home/git/INF8808_Project
 
 COPY requirements.txt ./
 
