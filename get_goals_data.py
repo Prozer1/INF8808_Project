@@ -8,7 +8,7 @@ def categorize_team(team_list):
     Returns:
         str: A string indicating whether the teams in the list are club teams or national teams.
     """
-    return 'OthersWithNT' if 'Portugal' in team_list else 'Others'
+    return 'Others With National Team ' if 'Portugal' in team_list else 'Others'
 
 def get_goals_data():
     """Reads the goals data from a file and processes it to return a Pandas DataFrame.
@@ -93,7 +93,7 @@ def get_goals_by_team_category():
     goals_data = get_goals_data().copy()
 
     # Map the team categories to 'National Team' or 'Clubs'
-    goals_data['Team_Category'] = goals_data['Team_Category'].apply(lambda x: 'National Team' if 'OthersWithNT' in x else 'Clubs')
+    goals_data['Team_Category'] = goals_data['Team_Category'].apply(lambda x: 'National Team' if 'Others With National Team' in x else 'Clubs')
 
     # Group the data by team category and get the sum of goals for each category
     goals_by_team_category = goals_data.groupby(['Team_Category'])['Goals'].sum().reset_index(name='Goals')
