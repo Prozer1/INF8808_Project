@@ -24,7 +24,7 @@ layout = html.Div(
                 dbc.Col(
                     [
                         dcc.Graph(id='assist-bar-chart',
-                                  figure=go.Figure(data=[go.Bar(x=df_assist['Passe décisive'], y=df_assist['nbPasse'], text=df_assist['nbPasse'],
+                                  figure=go.Figure(data=[go.Bar(x=df_assist['Passe décisive'], y=df_assist['assists_count'], text=df_assist['assists_count'],
                                                                 textposition='auto', hoverinfo='skip')],
                                                    layout=go.Layout(title='Top 10 players to assist Cristiano Ronaldo',
                                                                     template="plotly_dark")))
