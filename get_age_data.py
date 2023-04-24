@@ -4,6 +4,8 @@
 
 import pandas as pd  # pandas for data manipulation
 import utils  # custom module for extracting title from column names
+CRISTIANO_STATS_PATHFILE = "./datasets/cristiano/stats.csv"
+
 
 def get_data():
     """
@@ -12,7 +14,7 @@ def get_data():
         group_by_age (pandas.DataFrame): Dataframe with age, total goals, and goals per game.
     """
     # Load data and select only relevant columns
-    df = pd.read_csv('./datasets/cristiano/stats.csv')
+    df = pd.read_csv(CRISTIANO_STATS_PATHFILE)
     
     # Rename columns with proper titles
     for title in df.columns:

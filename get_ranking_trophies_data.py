@@ -1,11 +1,11 @@
 """the file contain two functions that load and clean up data related to Cristiano Ronaldo's club rankings and trophies"""
 
 import pandas as pd
-from get_data import get_data_from_file
-CLUB_RANKING_FILEPATH ="./datasets/cr7_club_ranking.xlsx"
-LIGUE_FILEPATH = "./datasets/cr7_ligues_nat.xlsx" 
-NATIONAl_COMP_FILEPATH = "./datasets/cr7_coupes_nat.xlsx" 
-INTERNATIONAL_COMP_FILEPATH = "./datasets/cr7_coupes_inter.xlsx"
+from utils import get_data_from_file
+CLUB_RANKING_FILEPATH ="./datasets/cristiano/club_ranking.xlsx"
+LIGUE_FILEPATH = "./datasets/cristiano/ligues_nat.xlsx" 
+NATIONAl_COMP_FILEPATH = "./datasets/cristiano/coupes_nat.xlsx" 
+INTERNATIONAL_COMP_FILEPATH = "./datasets/cristiano/coupes_inter.xlsx"
 
 
 def get_ranking_data():

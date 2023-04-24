@@ -1,6 +1,8 @@
 """This file contains a function to get top 15 opponents based on the number of matches played"""
 
 import pandas as pd
+MATCHES_PATHFILE = "./datasets/matches/"
+
 
 def get_opponents():
     """Reads in data from CSV files containing match data for football teams, aggregates the total number of goals scored
@@ -15,7 +17,7 @@ def get_opponents():
     # Iterate over the years 2002 to 2022
     for i in range(2002, 2023):
         # Read in the CSV file for the current year
-        current_df = pd.read_csv("./datasets/matches/" + str(i) + "-" + str(i+1) + ".csv")[['Date', 'Adversaire', 'Buts', 'PD']]
+        current_df = pd.read_csv(MATCHES_PATHFILE + str(i) + "-" + str(i+1) + ".csv")[['Date', 'Adversaire', 'Buts', 'PD']]
         # Concatenate the current year's dataframe with the existing dataframe
         df = pd.concat([df, current_df])
 

@@ -3,6 +3,8 @@
  
 import pandas as pd
 import utils
+DATASETS_PATH = './datasets/'
+
 
 def goal_ass_stats(player_name):
     """
@@ -10,7 +12,7 @@ def goal_ass_stats(player_name):
     selects the columns for goals and assists per 90 minutes, and returns the resulting DataFrame.
     """
     # Read in the CSV file from the 'datasets' directory for the specified player
-    df_goals_ass = pd.read_csv('./datasets/' + player_name + '/stats.csv')
+    df_goals_ass = pd.read_csv(DATASETS_PATH + player_name + '/stats.csv')
     
     # Format the DataFrame using the 'format_dataframe' function from the 'utils' module
     df_goals_ass = utils.format_dataframe(df_goals_ass)
@@ -38,8 +40,8 @@ def shot_stats(player_name):
     """
     
     # Load the shot creation dataset for the specified player, which is stored in a CSV file.
-    # The CSV file is assumed to be stored in the './datasets/' directory.
-    df_shot = pd.read_csv('./datasets/' + player_name + '/shot_creation.csv')[["Season", "SCA90"]]
+    # The CSV file is assumed to be stored in the DATASETS_PATH directory.
+    df_shot = pd.read_csv(DATASETS_PATH + player_name + '/shot_creation.csv')[["Season", "SCA90"]]
     
     # Return the DataFrame containing the shot creation statistics.
     return df_shot
@@ -56,7 +58,7 @@ def pass_stats(player_name):
         pandas.DataFrame: A DataFrame with the player's season and total completion percentage.
     """
     # Read in pass.csv file for the given player and format the data
-    df_pass = pd.read_csv('./datasets/' + player_name + '/pass.csv')
+    df_pass = pd.read_csv(DATASETS_PATH + player_name + '/pass.csv')
     df_pass = utils.format_dataframe(df_pass)
 
     # Select only the relevant columns from the DataFrame
@@ -113,7 +115,7 @@ def shot_percentage_stats(player_name):
     """
     
     # Load the shot percentage data for the player
-    df_shot_percentage = pd.read_csv('./datasets/' + player_name + '/shot.csv')
+    df_shot_percentage = pd.read_csv(DATASETS_PATH + player_name + '/shot.csv')
     
     # Format the dataframe
     df_shot_percentage = utils.format_dataframe(df_shot_percentage)

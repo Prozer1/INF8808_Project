@@ -1,8 +1,8 @@
 """This file contains contains functions for processing and analyzing data related to goals scored by Cristiano Ronaldo. """
 
 import pandas as pd
-from get_data  import get_data_from_file
-ALL_GOALS_FILEPATH = "./datasets/all_goals.xlsx"
+from utils  import get_data_from_file
+GOALS_DETAILED_FILEPATH = "./datasets/cristiano/goals_detailed.xlsx"
 GOALS_FILEPATH = "./datasets/cristiano/goals.xlsx"
 
 def categorize_team(team_list):
@@ -110,7 +110,7 @@ def get_goals_by_minute():
         dataframe: Pandas DF with Minute and Count as columns
     """
     # Load raw data
-    raw_data = get_data_from_file(ALL_GOALS_FILEPATH)
+    raw_data = get_data_from_file(GOALS_DETAILED_FILEPATH)
     
     # Filter data
     filtered_data = raw_data.filter(['Date', 'Minute'], axis=1)
@@ -134,12 +134,10 @@ def get_goals_by_type():
         dataframe: Pandas DF with Date, Type and Count as columns
     """
     # Load raw data
-    xls = pd.ExcelFile(ALL_GOALS_FILEPATH)
-    sheetX = xls.parse(0)
-    all_goals = sheetX
+    raw_data = get_data_from_file(GOALS_DETAILED_FILEPATH)
     
     # Filter data
-    filtered_data = all_goals.filter(['Date','Type'], axis=1)
+    filtered_data = raw_data.filter(['Date','Type'], axis=1)
     
     # Convert date to year only format
     for count, date in enumerate(filtered_data.Date):

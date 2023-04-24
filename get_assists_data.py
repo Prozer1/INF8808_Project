@@ -1,7 +1,7 @@
 """ This file contains a function to get to assisting players """
 
 import pandas as pd
-from get_data  import get_data_from_file
+from utils import get_data_from_file
 GOALS_PATHFILE = "./datasets/cristiano/goals.xlsx"
 
 def get_top_assisting_players():
