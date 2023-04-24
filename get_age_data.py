@@ -37,6 +37,9 @@ def get_data():
     group_by_age = goal_stats.groupby(['Age']).sum().reset_index()
     group_by_age['Goals per game'] = group_by_age['Buts'] / group_by_age['MJ']
     group_by_age.rename(columns={'Buts': 'Total goals'}, inplace=True)
+
+    # Goals per game is a float, so round it to 2 decimal places
+    group_by_age['Goals per game'] = group_by_age['Goals per game'].astype(float).round(2)
     
     # Return cleaned-up data
     return group_by_age
