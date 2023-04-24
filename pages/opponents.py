@@ -28,7 +28,7 @@ fig.update_layout(
     title='Cristiano Ronaldo Goals, Assists, and Matches Against different teams in his Football Career',
     xaxis_title='Opponent Teams',
     barmode='group',
-    template='plotly_dark'
+    template='custom_ronaldo'
 )
 
 # Define the layout of the app

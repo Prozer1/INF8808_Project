@@ -3,7 +3,14 @@ from dash import html,dcc, Input, Output
 import dash_bootstrap_components as dbc
 import os
 import plotly.express as px
+import json
 
+import plotly.graph_objects as go
+import plotly.io as pio
+
+custom_template = open("assets/custom_template.json")
+data = json.load(custom_template)
+pio.templates["custom_ronaldo"] = go.layout.Template(data)
 
 app = dash.Dash(__name__, use_pages=True,external_stylesheets=[dbc.themes.LUX],
                 meta_tags=[{'name': 'viewport',

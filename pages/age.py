@@ -54,7 +54,7 @@ def update_goals_graph(mode):
     goals_per_game = data['Goals per game']
     if mode == 'Goals per game':
         fig = go.Figure(data=[go.Bar(x=ages, y=goals_per_game, hovertemplate='Age: %{x} years<br>Goals per game: %{y} <extra></extra>')])
-        fig.update_layout(title='Goals ratio ', xaxis_title='Age', template='plotly_dark',
+        fig.update_layout(title='Goals ratio ', xaxis_title='Age', template='custom_ronaldo',
                           annotations=[
                                 dict(
                                     text="Number of goals",
@@ -68,7 +68,7 @@ def update_goals_graph(mode):
         return fig
     else:
         fig = go.Figure(data=[go.Bar(x=ages, y=goals, hovertemplate='Age: %{x} years<br>Goals: %{y} <extra></extra>')])
-        fig.update_layout(title='Goals scored by Ronaldo over his career', xaxis_title='Age', template='plotly_dark',
+        fig.update_layout(title='Goals scored by Ronaldo over his career', xaxis_title='Age', template='custom_ronaldo',
                           annotations=[
                                 dict(
                                     text="Number of goals",

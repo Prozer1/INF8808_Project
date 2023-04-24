@@ -9,9 +9,9 @@ ALL_GOALS_FILEPATH = "./datasets/all_goals.xlsx"
 goals_by_mins = get_goals_by_minute(ALL_GOALS_FILEPATH)
 goals_by_types = get_goals_by_type(ALL_GOALS_FILEPATH)
 
-fig=px.line(goals_by_mins, x=goals_by_mins.index, y='Date', title="Goals per minute",template="plotly_dark", labels={"Date":"Goals"})
+fig=px.line(goals_by_mins, x=goals_by_mins.index, y='Date', title="Goals per minute",template="custom_ronaldo", labels={"Date":"Goals"})
 fig.update_yaxes(title_text='', showticklabels=True)
-fig.update_layout(annotations=[dict(text="Goals", x=1, y=19, showarrow=False, font=dict(size=16))])
+fig.update_layout(annotations=[dict(text="Goals", x=2, y=19, showarrow=False, font=dict(size=16))])
 
 layout = html.Div(
     [
@@ -59,12 +59,12 @@ layout = html.Div(
 def switch_figure(_, __):
     button_clicked = ctx.triggered_id
     if button_clicked == 'minute-btn':
-        fig = px.line(goals_by_mins, x=goals_by_mins.index, y='Date', title="Goals per minute", labels={ "Date": "Goals" }, template="plotly_dark")
+        fig = px.line(goals_by_mins, x=goals_by_mins.index, y='Date', title="Goals per minute", labels={ "Date": "Goals" }, template="custom_ronaldo")
         fig.update_yaxes(title_text='', showticklabels=True)
-        fig.update_layout(annotations=[dict(text="Goals", x=1, y=19, showarrow=False, font=dict(size=16))])
+        fig.update_layout(annotations=[dict(text="Goals", x=2, y=19, showarrow=False, font=dict(size=16))])
         return fig, 'info', 'primary'
     elif button_clicked == 'type-btn':
-        fig = px.line(goals_by_types, x="Date", y="Count", color='Type', title='Type of goals per year',template="plotly_dark")
+        fig = px.line(goals_by_types, x="Date", y="Count", color='Type', title='Type of goals per year',template="custom_ronaldo")
         fig.update_yaxes(title_text='', showticklabels=True)
         fig.update_layout(annotations=[dict(text="Total goals", x=1, y=28, showarrow=False, font=dict(size=16))])
         return fig, 'primary', 'info'

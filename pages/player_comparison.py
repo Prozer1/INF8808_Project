@@ -39,7 +39,7 @@ fig.update_layout(
     showlegend=True,
     height=700,
     title='Performance comparison of players through their 5 last years in the European scene with Cristiano Ronaldo ', 
-    template='plotly_dark'
+    template='custom_ronaldo'
 )
 
 # Create a slider to change the year

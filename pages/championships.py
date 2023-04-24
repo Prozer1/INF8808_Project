@@ -30,7 +30,7 @@ layout = html.Div(
                                                                 hovertemplate="<b>Teams: </b>%{customdata}<br><extra></extra>",
                                                                 customdata=df1['Teams'].tolist())],
                                                    layout=go.Layout(title='Goals by Competition Category',
-                                                                    template="plotly_dark")))
+                                                                    template="custom_ronaldo")))
                     ], width=12
                 ),
             ]
@@ -65,9 +65,9 @@ def switch_figure(_, __):
                                                                 hovertemplate="Teams: %{customdata}<br>",
                                                                 customdata=df1['Teams'].tolist())],
                                                    layout=go.Layout(title='Goals by Competition Category',
-                                                                    template="plotly_dark")), 'info', 'primary')
+                                                                    template="custom_ronaldo")), 'info', 'primary')
     elif button_clicked == 'team-btn':
         return (go.Figure(data=[go.Bar(x=df2['Team_Category'], y=df2['Goals'], text=df2['Goals'],
                                                                 textposition='auto', hoverinfo='skip')],
                                                    layout=go.Layout(title='Goals by Team Category',
-                                                                    template="plotly_dark")), 'primary', 'info')
+                                                                    template="custom_ronaldo")), 'primary', 'info')

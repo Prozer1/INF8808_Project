@@ -27,7 +27,7 @@ layout = html.Div(
                                   figure=go.Figure(data=[go.Bar(x=df_assist['Passe décisive'], y=df_assist['assists_count'], text=df_assist['assists_count'],
                                                                 textposition='auto', hoverinfo='skip')],
                                                    layout=go.Layout(title='Top 10 players to assist Cristiano Ronaldo',
-                                                                    template="plotly_dark")))
+                                                                    template="custom_ronaldo")))
                     ], width=12
                 )
             ]
