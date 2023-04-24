@@ -45,11 +45,11 @@ def get_goals_data():
     sorted_data_df['Comp_Category'] = sorted_data_df['Comp'].apply(lambda x: x if x in top_competitions else 'Others')
     
     # Categorize teams as either club or national teams
-    sorted_data_df['Team_Category'] = sorted_data_df['Teams'].apply(categorize_team)
+    sorted_data_df.loc[:, 'Team_Category'] = sorted_data_df['Teams'].apply(categorize_team)
     
     # Return the final processed data
     return sorted_data_df
-
+    
 def get_goals_visualization():
     """This function returns a sorted dataframe with aggregated goals, teams and competition data by category.
     Returns:
@@ -59,8 +59,9 @@ def get_goals_visualization():
     goals_data = get_goals_data().copy()
     
     # Update competition category to use team category if it is 'Others'
-    goals_data['Comp_Category'] = goals_data.apply(lambda row: row['Team_Category'] if row['Comp_Category'] == 'Others' else row['Comp_Category'], axis=1)
-    
+    #goals_data['Comp_Category'] = goals_data.apply(lambda row: row['Team_Category'] if row['Comp_Category'] == 'Others' else row['Comp_Category'], axis=1)
+    goals_data.loc[:, 'Comp_Category'] = goals_data.apply(lambda row: row['Team_Category'] if row['Comp_Category'] == 'Others' else row['Comp_Category'], axis=1)
+
     # Select relevant columns
     goals_data = goals_data[['Comp', 'Goals', 'Teams', 'Comp_Category']]
     
@@ -144,7 +145,8 @@ def get_goals_by_type():
         date = date.split('/')
         if len(date) == 1:
             date = date[0].split('-')
-        filtered_data.Date[count] = '20'+date[2]
+        filtered_data.loc[count, 'Date'] = '20'+date[2]
+
     
     # Count goals per type per year
     filtered_data['Count'] = filtered_data.groupby(['Date', 'Type'])['Type'].transform('count')
@@ -160,7 +162,7 @@ def get_goals_by_type():
         for type in filtered_data.Type.unique():
             if not filtered_data[(filtered_data['Date'] == str(year)) & (filtered_data['Type'] == type)].empty:
                 continue
-            filtered_data = filtered_data.append({'Date': str(year), 'Type': type, 'Count': 0}, ignore_index=True)
+            filtered_data = pd.concat([filtered_data, pd.DataFrame({'Date': str(year), 'Type': type, 'Count': 0}, index=[0])], ignore_index=True)
 
     # Drop rows where the Type is Solo Run, Penalty rebound, Counter attack goal, or Deflected shot on goal
     filtered_data = filtered_data[~filtered_data['Type'].isin(['Solo run', 'Penalty rebound', 'Counter attack goal', 'Deflected shot on goal'])]

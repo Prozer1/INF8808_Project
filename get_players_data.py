@@ -5,7 +5,6 @@ import pandas as pd
 import utils
 DATASETS_PATH = './datasets/'
 
-
 def goal_ass_stats(player_name):
     """
     This function reads in a CSV file containing the player's stats,
@@ -18,15 +17,14 @@ def goal_ass_stats(player_name):
     df_goals_ass = utils.format_dataframe(df_goals_ass)
     
     # Select the columns for goals and assists per 90 minutes
-    goal_ass_stats = df_goals_ass[['Saison', 'Par90minutes.Buts', 'Par90minutes.PD']]
+    goal_ass_stats = df_goals_ass.loc[:, ['Saison', 'Par90minutes.Buts', 'Par90minutes.PD']]
     
     # Convert the data types of the columns to 'float'
-    goal_ass_stats['Par90minutes.Buts'] = goal_ass_stats['Par90minutes.Buts'].astype(float)
-    goal_ass_stats['Par90minutes.PD'] = goal_ass_stats['Par90minutes.PD'].astype(float)
+    goal_ass_stats.loc[:, 'Par90minutes.Buts'] = goal_ass_stats['Par90minutes.Buts'].astype(float)
+    goal_ass_stats.loc[:, 'Par90minutes.PD'] = goal_ass_stats['Par90minutes.PD'].astype(float)
     
     # Return the resulting DataFrame
     return goal_ass_stats
-
 
 def shot_stats(player_name):
     """This function takes a player's name as input and returns a pandas DataFrame containing
@@ -42,6 +40,9 @@ def shot_stats(player_name):
     # Load the shot creation dataset for the specified player, which is stored in a CSV file.
     # The CSV file is assumed to be stored in the DATASETS_PATH directory.
     df_shot = pd.read_csv(DATASETS_PATH + player_name + '/shot_creation.csv')[["Season", "SCA90"]]
+    
+    # Use .loc accessor to select only the relevant columns from the DataFrame
+    df_shot = df_shot.loc[:, ["Season", "SCA90"]]
     
     # Return the DataFrame containing the shot creation statistics.
     return df_shot
@@ -61,13 +62,12 @@ def pass_stats(player_name):
     df_pass = pd.read_csv(DATASETS_PATH + player_name + '/pass.csv')
     df_pass = utils.format_dataframe(df_pass)
 
-    # Select only the relevant columns from the DataFrame
-    df_pass = df_pass[["Season", "Total.Cmp%"]]
+    # Use .loc accessor to select only the relevant columns from the DataFrame
+    df_pass = df_pass.loc[:, ["Season", "Total.Cmp%"]]
 
     # Return the resulting DataFrame
     return df_pass
-
-
+    
 def group_last_5_years_data(df_shot, df_pass, df_shot_percentage, goal_ass_stats):
     """This function groups the last 5 years of data from several dataframes 
     and returns a new dataframe with the results.
@@ -97,9 +97,9 @@ def group_last_5_years_data(df_shot, df_pass, df_shot_percentage, goal_ass_stats
     group_by_season = group_by_season.tail(5).reset_index()
     
     # add columns to the new dataframe containing relevant data from the shot, passing, and shot percentage dataframes
-    group_by_season['SCA90'] = list(df_shot['SCA90'])
-    group_by_season['PassCompletion'] = list(df_pass['Total.Cmp%'])
-    group_by_season['SoT%'] = list(df_shot_percentage['Standard.SoT%'])
+    group_by_season.loc[:, 'SCA90'] = list(df_shot['SCA90'])
+    group_by_season.loc[:, 'PassCompletion'] = list(df_pass['Total.Cmp%'])
+    group_by_season.loc[:, 'SoT%'] = list(df_shot_percentage['Standard.SoT%'])
     
     # return the new dataframe
     return group_by_season# Import the necessary packages and libraries
@@ -121,7 +121,7 @@ def shot_percentage_stats(player_name):
     df_shot_percentage = utils.format_dataframe(df_shot_percentage)
     
     # Select the columns we're interested in
-    df_shot_percentage = df_shot_percentage[["Season", "Standard.SoT%"]]
+    df_shot_percentage = df_shot_percentage.loc[:, ["Season", "Standard.SoT%"]]
     
     # Return the resulting dataframe
     return df_shot_percentage
@@ -142,12 +142,12 @@ def standarize_df(df, max_goal_ratio, max_assist_ratio, max_sca, max_pass, max_s
         pandas.DataFrame: The standardized performance data.
     """
     
-    # Standardize the columns of interest
-    df['Par90minutes.Buts'] = df['Par90minutes.Buts'] / max_goal_ratio
-    df['Par90minutes.PD'] = df['Par90minutes.PD'] / max_assist_ratio
-    df['SCA90'] = df['SCA90'] / max_sca
-    df['PassCompletion'] = df['PassCompletion'] / max_pass
-    df['SoT%'] = df['SoT%'] / max_sot
+    # Standardize the columns of interest using .loc accessor
+    df.loc[:, 'Par90minutes.Buts'] = df['Par90minutes.Buts'] / max_goal_ratio
+    df.loc[:, 'Par90minutes.PD'] = df['Par90minutes.PD'] / max_assist_ratio
+    df.loc[:, 'SCA90'] = df['SCA90'] / max_sca
+    df.loc[:, 'PassCompletion'] = df['PassCompletion'] / max_pass
+    df.loc[:, 'SoT%'] = df['SoT%'] / max_sot
     
     # Return the standardized dataframe
     return df
@@ -173,7 +173,6 @@ def adjust_players_performance_data(name, df):
     
     # Return the adjusted data as a dictionary
     return {'name': name, 'values': values}
-
 
 def get_players_statistics():
     """
