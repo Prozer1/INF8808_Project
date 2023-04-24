@@ -10,7 +10,7 @@ dash.register_page(__name__, name='Age', order=2)
 
 data = get_data()
 figure = go.Figure(data=[go.Bar(x=data['Age'], y=data['Goals per game'], hovertemplate='Age: %{x} years<br>Goals per game: %{y} <extra></extra>')])
-figure.update_layout(title='Goals ratio ', xaxis_title='Age', template='custom_ronaldo',annotations=[dict(text="Number of goals", x=18, y=1.8, showarrow=False, font=dict(size=16))])
+figure.update_layout(title='Goals ratio ', xaxis_title='Age', template='custom_ronaldo',annotations=[dict(text="Number of goals per match", x=18, y=1.8, showarrow=False, font=dict(size=16))])
 
 layout = dbc.Row(
     [
