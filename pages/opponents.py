@@ -3,11 +3,11 @@ from dash import dcc,html
 import plotly.express as px
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
-from get_data import visualisation_6_data
+from get_opponents_data import get_opponents
 
 dash.register_page(__name__, name='Opponents',order=4)
 
-team_stats = visualisation_6_data()
+team_stats = get_opponents()
 
 # Define the data
 teams = team_stats['Adversaire']
