@@ -2,13 +2,13 @@ import dash
 from dash import dcc,html, Input, Output, State, callback, ctx
 import plotly.express as px
 import dash_bootstrap_components as dbc
-from get_data import question_7_ranking_data, question_7_trophies_data
+from get_ranking_trophies_data import get_ranking_data, get_trophies_data
 from hover_template import get_hover_template
 
 dash.register_page(__name__, name='Clubs Ranking/Trophies',order=5)
 
-ranking_df = question_7_ranking_data()
-trophies_df = question_7_trophies_data()
+ranking_df = get_ranking_data()
+trophies_df = get_trophies_data()
 teams_name = ranking_df.columns[:-1]
 figure=px.line(ranking_df, x=ranking_df.index, y=ranking_df.columns[:-1], title="Club Ranking per Season", custom_data=['Team'], markers=True, template="custom_ronaldo")
 figure.update_traces(hovertemplate=get_hover_template('ranking-btn'), line=dict(width=3))
