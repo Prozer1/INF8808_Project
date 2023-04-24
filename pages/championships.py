@@ -60,10 +60,10 @@ layout = html.Div(
 def switch_figure(_, __):
     button_clicked = ctx.triggered_id
     if button_clicked == 'comp-btn':
-        return (go.Figure(data=[go.Bar(x=df['Comp_Category'], y=df1['Goals'], text=df1['Goals'],
+        return (go.Figure(data=[go.Bar(x=df1['Comp_Category'], y=df1['Goals'], text=df1['Goals'],
                                                                 textposition='auto',
                                                                 hovertemplate="Teams: %{customdata}<br>",
-                                                                customdata=df['Teams'].tolist())],
+                                                                customdata=df1['Teams'].tolist())],
                                                    layout=go.Layout(title='Goals by Competition Category',
                                                                     template="plotly_dark")), 'info', 'primary')
     elif button_clicked == 'team-btn':
