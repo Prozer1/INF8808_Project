@@ -41,9 +41,9 @@ app.layout = dbc.Container([
     html.Hr(),
     
     dbc.Row([
-        dbc.Col([sidebar], xs=4, sm=4, md=2, lg=2, xl=2, xxl=2),
+        dbc.Col([sidebar], xs=4, sm=4, md=2, lg=2, xl=2, xxl=2, className="bg-dark"),
         
-        dbc.Col([dash.page_container], xs=8, sm=8, md=10, lg=10, xl=10, xxl=10)
+        dbc.Col([dash.page_container], xs=8, sm=8, md=10, lg=10, xl=10, xxl=10, className="bg-dark")
     ])
 ], fluid=True, class_name="bg-dark vh-100")
 

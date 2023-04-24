@@ -42,22 +42,15 @@ layout = html.Div(
             [
                 dbc.Col(
                     [
+                        html.P("Dans le cadre de notre projet visant à analyser l'impact de Ronaldo sur le sport, nous utilisons la visualisation de données pour explorer certains des moments clés et des réalisations de sa carrière. En représentant graphiquement les données relatives aux buts, aux passes décisives et à d'autres statistiques de Ronaldo, nous sommes en mesure de mieux comprendre son style de jeu, ses forces et ses faiblesses, ainsi que l'impact qu'il a eu sur ses équipes et sur le sport dans son ensemble.", style={'color': '#ffffff'}),
                         html.H2("L'équipe 3 - SportsAI", style={'fontSize': 20, 'color': '#ffffff'}),
                         table
                     ], className='p-3',xs=10, sm=10, md=8, lg=6, xl=6, xxl=6
                 ),
                 dbc.Col(
                     [
-                        html.Img(src='./assets/cristiano_pic.png', height='500')
+                        html.Img(src='./assets/cristiano_pic.png', height='700')
                     ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
-                )
-            ]
-        ),dbc.Row(
-            [
-                dbc.Col(
-                    [
-                        html.P("Dans le cadre de notre projet visant à analyser l'impact de Ronaldo sur le sport, nous utilisons la visualisation de données pour explorer certains des moments clés et des réalisations de sa carrière. En représentant graphiquement les données relatives aux buts, aux passes décisives et à d'autres statistiques de Ronaldo, nous sommes en mesure de mieux comprendre son style de jeu, ses forces et ses faiblesses, ainsi que l'impact qu'il a eu sur ses équipes et sur le sport dans son ensemble.", style={'color': '#ffffff'})
-                    ],xs=10, sm=10, md=8, lg=6, xl=6, xxl=6
                 )
             ]
         )
