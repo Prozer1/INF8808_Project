@@ -1,5 +1,6 @@
-"""This file contains functions for processing and analyzing data related to goals scored by football teams"""
+"""This file contains contains functions for processing and analyzing data related to goals scored by Cristiano Ronaldo. """
 import pandas as pd
+ALL_GOALS_FILEPATH = "./datasets/all_goals.xlsx"
 
 def categorize_team(team_list):
     """Categorizes a list of teams as either club teams or national teams based on the presence of the word 'Portugal' in the list.
@@ -87,7 +88,8 @@ def get_goals_visualization():
 def get_goals_by_team_category():
     """Returns a dataframe with the sum of goals scored by national teams and clubs.
     Returns:
-        pandas.DataFrame: A dataframe with columns 'Team_Category' and 'Goals', where 'Team_Category' indicates if a team is a national team or a club, and 'Goals' is the sum of goals scored by teams in that category.
+        pandas.DataFrame: A dataframe with columns 'Team_Category' and 'Goals', where 'Team_Category' indicates if a team is a national team or a club, 
+        and 'Goals' is the sum of goals scored by teams in that category.
     """
     # Get the goals data and make a copy of it
     goals_data = get_goals_data().copy()
@@ -99,3 +101,74 @@ def get_goals_by_team_category():
     goals_by_team_category = goals_data.groupby(['Team_Category'])['Goals'].sum().reset_index(name='Goals')
 
     return goals_by_team_category
+
+def get_goals_by_minute():
+    """Get the number of goals scored by minute
+
+    Returns:
+        dataframe: Pandas DF with Minute and Count as columns
+    """
+    # Load raw data
+    xls = pd.ExcelFile(ALL_GOALS_FILEPATH)
+    sheetX = xls.parse(0)
+    raw_data = sheetX
+    
+    # Filter data
+    filtered_data = raw_data.filter(['Date', 'Minute'], axis=1)
+    
+    # Count goals per minute
+    goal_by_minute = filtered_data.groupby(['Minute']).count()
+    
+    # Remove extra time because it's not relevent as data
+    goal_by_minute = goal_by_minute[~goal_by_minute.index.str.contains('\+')]
+    
+    # Sort Index
+    goal_by_minute.index = pd.to_numeric(goal_by_minute.index)
+    goal_by_minute = goal_by_minute.sort_index()
+    
+    return goal_by_minute.loc[:90]
+    
+def get_goals_by_type():
+    """Get the number of goals scored by type, per year
+
+    Returns:
+        dataframe: Pandas DF with Date, Type and Count as columns
+    """
+    # Load raw data
+    xls = pd.ExcelFile(ALL_GOALS_FILEPATH)
+    sheetX = xls.parse(0)
+    all_goals = sheetX
+    
+    # Filter data
+    filtered_data = all_goals.filter(['Date','Type'], axis=1)
+    
+    # Convert date to year only format
+    for count, date in enumerate(filtered_data.Date):
+        date = date.split('/')
+        if len(date) == 1:
+            date = date[0].split('-')
+        filtered_data.Date[count] = '20'+date[2]
+    
+    # Count goals per type per year
+    filtered_data['Count'] = filtered_data.groupby(['Date', 'Type'])['Type'].transform('count')
+    
+    # Drop rows with missing type values
+    filtered_data = filtered_data.dropna(subset=['Type'])
+    
+    # Drop duplicate rows
+    filtered_data = filtered_data.drop_duplicates()
+    
+    # Add rows with 0 count for the years where the type of goal is not present
+    for year in range(2002, 2023):
+        for type in filtered_data.Type.unique():
+            if not filtered_data[(filtered_data['Date'] == str(year)) & (filtered_data['Type'] == type)].empty:
+                continue
+            filtered_data = filtered_data.append({'Date': str(year), 'Type': type, 'Count': 0}, ignore_index=True)
+
+    # Drop rows where the Type is Solo Run, Penalty rebound, Counter attack goal, or Deflected shot on goal
+    filtered_data = filtered_data[~filtered_data['Type'].isin(['Solo run', 'Penalty rebound', 'Counter attack goal', 'Deflected shot on goal'])]
+    
+    # Sort data by year
+    filtered_data = filtered_data.sort_values(by=['Date'])
+    
+    return filtered_data

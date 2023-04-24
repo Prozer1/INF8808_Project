@@ -2,12 +2,12 @@ import dash
 from dash import dcc,html, Input, Output, callback, ctx
 import plotly.express as px
 import dash_bootstrap_components as dbc
-from get_data import get_goals_by_minute, get_goals_by_type
+from get_goals_data import get_goals_by_minute, get_goals_by_type
 
 dash.register_page(__name__, name='Goals',order=6)
-ALL_GOALS_FILEPATH = "./datasets/all_goals.xlsx"
-goals_by_mins = get_goals_by_minute(ALL_GOALS_FILEPATH)
-goals_by_types = get_goals_by_type(ALL_GOALS_FILEPATH)
+
+goals_by_mins = get_goals_by_minute()
+goals_by_types = get_goals_by_type()
 
 fig=px.line(goals_by_mins, x=goals_by_mins.index, y='Date', title="Goals per minute",template="custom_ronaldo", labels={"Date":"Goals"})
 fig.update_yaxes(title_text='', showticklabels=True)
