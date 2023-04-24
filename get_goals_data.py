@@ -1,6 +1,8 @@
 """This file contains contains functions for processing and analyzing data related to goals scored by Cristiano Ronaldo. """
 import pandas as pd
+from get_data  import get_data_from_file
 ALL_GOALS_FILEPATH = "./datasets/all_goals.xlsx"
+GOALS_FILEPATH = "./datasets/cristiano/goals.xlsx"
 
 def categorize_team(team_list):
     """Categorizes a list of teams as either club teams or national teams based on the presence of the word 'Portugal' in the list.
@@ -17,9 +19,7 @@ def get_goals_data():
         Pandas DataFrame: DataFrame with processed data on goals
     """
     # Read the goals data from a file
-
-    xls = pd.ExcelFile("./datasets/cristiano/goals.xlsx")
-    goals_df = xls.parse(0)
+    goals_df = get_data_from_file(GOALS_FILEPATH)
     
     # Select only relevant columns from the DataFrame
     goals_df = goals_df[['Clt', 'Comp', 'Équipe']]
@@ -109,9 +109,7 @@ def get_goals_by_minute():
         dataframe: Pandas DF with Minute and Count as columns
     """
     # Load raw data
-    xls = pd.ExcelFile(ALL_GOALS_FILEPATH)
-    sheetX = xls.parse(0)
-    raw_data = sheetX
+    raw_data = get_data_from_file(ALL_GOALS_FILEPATH)
     
     # Filter data
     filtered_data = raw_data.filter(['Date', 'Minute'], axis=1)

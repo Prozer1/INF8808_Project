@@ -1,4 +1,7 @@
+""" This file contains a function to get to assisting players """
 import pandas as pd
+from get_data  import get_data_from_file
+GOALS_PATHFILE = "./datasets/cristiano/goals.xlsx"
 
 def get_top_assisting_players():
     """
@@ -11,8 +14,9 @@ def get_top_assisting_players():
         pandas.DataFrame: A DataFrame containing information about the top
         ten players with the highest number of assists.
     """
-    # Load data and select only relevant columns
-    goals_data = pd.read_excel("./datasets/cristiano/goals.xlsx", usecols=['Clt', 'Passe décisive'])
+   # Load data and select only relevant columns
+    goals_data = get_data_from_file(GOALS_PATHFILE)
+    goals_data = goals_data[['Clt', 'Passe décisive']]
 
     # Drop rows with missing values in the 'Passe décisive' column
     goals_data.dropna(subset=['Passe décisive'], inplace=True)

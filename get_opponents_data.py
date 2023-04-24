@@ -1,3 +1,4 @@
+"""This file contains a function to get top 15 opponents based on the number of matches played"""
 import pandas as pd
 
 def get_opponents():

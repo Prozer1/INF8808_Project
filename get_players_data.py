@@ -1,5 +1,8 @@
+"""This file contains several functions for processing and analyzing football players' statistics related to goals,
+ shots, passes, shot percentage, and goal/assist stats."""
 import pandas as pd
 import utils
+
 def goal_ass_stats(player_name):
     """
     This function reads in a CSV file containing the player's stats,

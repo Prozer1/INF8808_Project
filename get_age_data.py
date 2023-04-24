@@ -1,9 +1,8 @@
 """This file contains a function for cleaning and transforming data for visualisation,
    which displays the number of goals scored per game across different age groups by 
-   Cristiano Ronaldo.# import necessary libraries
-"""
+   Cristiano Ronaldo.# import necessary libraries"""
+
 import pandas as pd  # pandas for data manipulation
-import plotly.express as px  # plotly for data visualization
 import utils  # custom module for extracting title from column names
 
 def get_data():
