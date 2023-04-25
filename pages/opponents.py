@@ -25,7 +25,7 @@ fig = go.Figure(data=[
 
 # Set the layout of the chart
 fig.update_layout(
-    title='Cristiano Ronaldo Goals, Assists, and Matches Against different teams in his Football Career',
+    title='Cristiano Ronaldo goals, and assists against 10 teams he faced the most during his career',
     xaxis_title='Opponent Teams',
     barmode='group',
     template='custom_ronaldo'

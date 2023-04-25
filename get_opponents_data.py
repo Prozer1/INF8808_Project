@@ -35,7 +35,7 @@ def get_opponents():
 
     # Sort the resulting dataframe by the number of matches played, and select the top 15 opponents
     team_stats = team_stats.sort_values('Matches', ascending=False)
-    team_stats = team_stats.iloc[:15].reset_index()
+    team_stats = team_stats.iloc[:10].reset_index()
 
     # Return the final dataframe
     return team_stats
