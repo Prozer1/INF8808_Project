@@ -24,9 +24,7 @@ def get_data():
     
     # Select relevant columns and convert data types
     goal_stats = df[['Age', 'MJ', 'Buts']]
-    goal_stats.loc[:, 'Age'] = goal_stats.loc[:,'Age'].astype(int)
-    goal_stats.loc[:, 'MJ'] = goal_stats.loc[:,'MJ'].astype(int)
-    goal_stats.loc[:, 'Buts'] = goal_stats.loc[:,'Buts'].astype(int)
+    goal_stats = goal_stats.astype({'Age': int, 'MJ': int, 'Buts': int})
     
     # Group by age and calculate total goals and goals per game
     group_by_age = goal_stats.groupby(['Age']).sum().reset_index()
