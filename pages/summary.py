@@ -3,7 +3,7 @@ from dash import dcc,html
 import plotly.express as px
 import dash_bootstrap_components as dbc
 
-dash.register_page(__name__, name='Accueil', path='/',order=1)
+dash.register_page(__name__, name='Home', path='/',order=1)
 
 table_header = [
     html.Thead(html.Tr([html.Th("First Name"), html.Th("Last Name")]))
@@ -33,7 +33,7 @@ layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.H1("Accueil", style={'color': '#ffffff'})
+                        html.H1("Home", style={'color': '#ffffff'})
                     ],xs=10, sm=10, md=8, lg=4, xl=4, xxl=4
                 )
             ]
