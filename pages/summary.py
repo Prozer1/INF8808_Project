@@ -42,8 +42,8 @@ layout = html.Div(
             [
                 dbc.Col(
                     [
-                        html.P("Dans le cadre de notre projet visant à analyser l'impact de Ronaldo sur le sport, nous utilisons la visualisation de données pour explorer certains des moments clés et des réalisations de sa carrière. En représentant graphiquement les données relatives aux buts, aux passes décisives et à d'autres statistiques de Ronaldo, nous sommes en mesure de mieux comprendre son style de jeu, ses forces et ses faiblesses, ainsi que l'impact qu'il a eu sur ses équipes et sur le sport dans son ensemble.", style={'color': '#ffffff'}),
-                        html.H2("L'équipe 3 - SportsAI", style={'fontSize': 20, 'color': '#ffffff'}),
+                        html.P("As part of our project to analyze Ronaldo's impact on the sport, we are using data visualization to explore some of the key moments and achievements of his career. By graphically representing Ronaldo's goals, assists, and other statistics, we are able to better understand his style of play, his strengths and weaknesses, and the impact he has had on his teams and on the sport as a whole.", style={'color': '#ffffff'}),
+                        html.H2("Team 3 - SportsAI", style={'fontSize': 20, 'color': '#ffffff'}),
                         table
                     ], className='p-3',xs=10, sm=10, md=8, lg=6, xl=6, xxl=6
                 ),
