@@ -48,10 +48,15 @@ steps = []
 
 for year in years:
     visible = [trace.name.endswith(f'({year})') for trace in traces]
+    year_label = 'Year ' + str(year)
+    if (year == 1):
+        year_label += ' (oldest)'
+    if (year == 5):
+        year_label += ' (latest)'
     step = dict(
         method="update",
         args=[{"visible": visible}],
-        label='Year ' + str(year)
+        label=year_label
     )
     steps.append(step)
 
